@@ -10,7 +10,7 @@
 <section id="ai" class="page"><div class="grid cols"><div class="card"><h2>تقييم البحر والتوصيات</h2><p class="small">المحرك يسحب بيانات البحر والطقس من Open-Meteo، ثم يطبق Risk Engine بقواعد ثابتة قبل توليد التوصيات.</p><div class="form-grid"><div class="field"><label>زوار متوقعين</label><input id="expectedVisitors" value="1200"></div><div class="field"><label>حوادث أمس</label><input id="yesterdayIncidents" value="0"></div></div><button class="btn" id="runAI">تحديث حالة البحر الآن</button> <button class="btn secondary" id="runAIPublish">تحديث ونشر أخبار العملاء</button><div id="aiResult" style="margin-top:14px"></div></div><div class="card"><h2>قواعد Risk Engine</h2><ul class="rules"><li>إذا كان ارتفاع الموج أكبر من 1.2م أو الرياح أكبر من 25 كم/س = خطر عالي.</li><li>إذا كان الموج من 0.5م إلى 1.2م أو الرياح من 15 إلى 25 كم/س = خطر متوسط.</li><li>كل مارينا تحتاج 2 منقذين مع منع النزول تحتها نهائياً.</li><li>كل توصية للزوار لا تنشر إلا بعد اعتماد المشرف.</li></ul></div></div></section>
 <section id="incidents" class="page"><div class="grid cols"><div class="card"><h2>الحالات المسجلة</h2><table class="table"><thead><tr><th>الوقت</th><th>النقطة</th><th>النوع</th><th>ملاحظات</th><th>بواسطة</th></tr></thead><tbody id="incidentsTable"></tbody></table></div><div class="card"><h2>طلبات المنقذين</h2><table class="table"><thead><tr><th>الوقت</th><th>المنقذ</th><th>الطلب</th><th>ملاحظات</th><th>الحالة</th></tr></thead><tbody id="requestsTable"></tbody></table></div></div></section>
 <section id="sheets" class="page"><div class="card"><h2>ربط Google Sheets</h2><p>ضع رابط Web App من Google Apps Script هنا، وسيتم إرسال الحالات والطلبات عند التسجيل من صفحة المنقذ.</p><div class="field"><label>Google Sheets Webhook URL</label><input id="sheetUrl" placeholder="https://script.google.com/macros/s/.../exec"></div><button class="btn" id="saveSheet">حفظ الرابط</button></div></section>
-</main></div><script src="data.js"></script><script src="ai-engine.js"></script><script src="app.js"></script><script>BS.renderAdmin()</script><div class="card" style="margin-top:20px">
+</main><<div class="card" style="margin-top:20px">
   <h3>Blue Sentinel AI Assistant</h3>
 
   <textarea id="aiQuestion"
@@ -25,4 +25,21 @@
     style="margin-top:15px;padding:15px;background:#0f172a;border-radius:12px">
     جاهز للإجابة...
   </div>
+</div>
+
+<script src="data.js"></script>
+<script src="ai-engine.js"></script>
+<script src="app.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  if (window.BS && typeof window.BS.renderAdmin === "function") {
+    window.BS.renderAdmin();
+  } else {
+    console.error("BS.renderAdmin غير موجود");
+  }
+
+});
+</script>
 </div></body></html>
