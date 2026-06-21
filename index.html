@@ -1,15 +1,164 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Blue Sentinel | واجهة العملاء</title><link rel="stylesheet" href="styles.css"></head><body>
-<header class="topbar"><div class="brand"><div class="logo">BS</div><div><h1>Blue Sentinel</h1><p>Beach Safety System</p></div></div><button class="menu-btn" id="menuBtn">☰ القائمة</button></header>
-<nav class="menu-pop" id="menuPop"><a class="active" href="index.html">واجهة العملاء</a><a href="admin.html">دخول المشرف</a><a href="lifeguard.html">دخول المنقذ</a></nav>
-<main class="wrap"><div class="hero"><div><h2>واجهة العملاء</h2><p>حالة البحر والتحذيرات وخريطة النزول الآمن</p></div><span class="pill" id="shiftText">Shift 09:00 - 19:00</span></div>
-<section class="grid cards4"><div class="card metric"><strong id="wUpdate">09:00</strong><span>آخر تحديث</span></div><div class="card metric"><strong id="wWind">km/h 18</strong><span>سرعة الرياح</span></div><div class="card metric"><strong id="wWave">m 0.6</strong><span>ارتفاع الموج</span></div><div class="card metric"><span class="pill" id="statusPill">البحر مفتوح بحذر</span><strong id="wRisk">38%</strong><span>مؤشر الخطورة</span></div></section>
-<section class="grid cols" style="margin-top:16px"><div class="card"><h2>أخبار وتحذيرات اليوم</h2><div id="publicNews"></div><div id="aiPublic" style="margin-top:12px"></div><div class="card" id="pointDetails" style="margin-top:14px"><h3>تفاصيل النقطة</h3><p class="small">اضغط على أي نقطة في الخريطة لعرض التعليمات العامة للزوار.</p></div></div><div class="card map-card"><h3>خريطة البحر للعملاء</h3><div class="beach-map map-3d" id="publicMap"></div><p class="small">الأسماء الداخلية غير ظاهرة للزوار. الخريطة تعرض الحالة العامة فقط.</p></div></section>
-</main><script src="data.js"></script><script src="ai-engine.js"></script><script src="app.js"></script><script>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Blue Sentinel | واجهة العملاء</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="public-body">
+
+<header class="topbar public-topbar">
+  <div class="brand">
+    <div class="logo">BS</div>
+    <div>
+      <h1>Blue Sentinel</h1>
+      <p>Beach Safety System</p>
+    </div>
+  </div>
+
+  <button class="menu-btn" id="menuBtn">☰ القائمة</button>
+</header>
+
+<nav class="menu-pop" id="menuPop">
+  <a class="active" href="index.html">واجهة العملاء</a>
+  <a href="admin.html">دخول المشرف</a>
+  <a href="lifeguard.html">دخول المنقذ</a>
+</nav>
+
+<main class="public-wrap">
+
+  <section class="public-hero">
+    <div class="public-hero-overlay">
+      <span class="public-badge">Lavista Bay • KM 170</span>
+
+      <h2>Blue Sentinel</h2>
+      <p>نظام ذكي لمتابعة حالة البحر وتحذيرات السلامة داخل الشاطئ</p>
+
+      <div class="hero-status-row">
+        <span class="hero-status" id="statusPill">البحر مفتوح بحذر</span>
+        <span class="hero-shift" id="shiftText">Shift 09:00 - 19:00</span>
+      </div>
+
+      <div class="hero-update">
+        آخر تحديث: <strong id="wUpdate">09:00</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="public-metrics">
+    <div class="public-metric-card">
+      <span>حالة البحر</span>
+      <strong id="statusCard">--</strong>
+      <small>حسب تقييم المخاطر اليومي</small>
+    </div>
+
+    <div class="public-metric-card">
+      <span>ارتفاع الموج</span>
+      <strong id="wWave">0.6 m</strong>
+      <small>بيانات البحر المباشرة</small>
+    </div>
+
+    <div class="public-metric-card">
+      <span>سرعة الرياح</span>
+      <strong id="wWind">18 km/h</strong>
+      <small>تؤثر على مستوى الأمان</small>
+    </div>
+
+    <div class="public-metric-card risk-card">
+      <span>مؤشر الخطورة</span>
+      <strong id="wRisk">38%</strong>
+      <small>منخفض / متوسط / مرتفع</small>
+    </div>
+  </section>
+
+  <section class="public-section">
+    <div class="public-section-head">
+      <div>
+        <h2>خريطة البحر</h2>
+        <p>اضغط على أي نقطة لمعرفة حالة المنطقة والتعليمات العامة.</p>
+      </div>
+      <span class="map-note">الأسماء الداخلية لا تظهر للزوار</span>
+    </div>
+
+    <div class="public-map-shell">
+      <div class="beach-map map-3d public-premium-map" id="publicMap"></div>
+    </div>
+
+    <div class="public-point-card" id="pointDetails">
+      <h3>تفاصيل النقطة</h3>
+      <p class="small">اضغط على أي نقطة في الخريطة لعرض التعليمات العامة للزوار.</p>
+    </div>
+  </section>
+
+  <section class="public-grid-two">
+    <div class="public-panel">
+      <div class="public-section-head compact">
+        <h2>أخبار وتحذيرات اليوم</h2>
+      </div>
+      <div id="publicNews" class="public-news-list"></div>
+    </div>
+
+    <div class="public-panel">
+      <div class="public-section-head compact">
+        <h2>توصيات السلامة</h2>
+      </div>
+
+      <div id="aiPublic" class="public-ai-box"></div>
+
+      <div class="safety-tips">
+        <div>✅ السباحة داخل المناطق المحددة فقط</div>
+        <div>⚠️ مراقبة الأطفال باستمرار</div>
+        <div>🚫 ممنوع النزول أسفل أي مارينا</div>
+        <div>🌊 الالتزام بتعليمات المنقذين</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="public-panel public-timeline">
+    <div class="public-section-head compact">
+      <h2>آخر الأحداث</h2>
+    </div>
+
+    <div class="timeline-item">
+      <span>09:15</span>
+      <p>تحديث حالة البحر ونشر تعليمات السلامة اليومية.</p>
+    </div>
+
+    <div class="timeline-item">
+      <span>09:00</span>
+      <p>بدء شيفت فريق الإنقاذ وتفعيل نقاط المراقبة.</p>
+    </div>
+
+    <div class="timeline-item danger">
+      <span>تنبيه ثابت</span>
+      <p>ممنوع النزول أو السباحة أسفل المارينا نهائيًا.</p>
+    </div>
+  </section>
+
+</main>
+
+<script src="data.js"></script>
+<script src="ai-engine.js"></script>
+<script src="app.js"></script>
+
+<script>
 document.addEventListener("DOMContentLoaded", function () {
   if (window.BS && typeof window.BS.renderPublic === "function") {
     window.BS.renderPublic();
+
+    var statusPill = document.getElementById("statusPill");
+    var statusCard = document.getElementById("statusCard");
+
+    if (statusPill && statusCard) {
+      statusCard.textContent = statusPill.textContent || "--";
+    }
   } else {
     console.error("BS.renderPublic غير موجود - راجع تحميل app.js");
   }
 });
 </script>
+
+</body>
+</html>
