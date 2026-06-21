@@ -86,8 +86,7 @@ async function sheetSubmit(row){ if(!DATA.sheetsWebhook)return; try{await fetch(
 function renderLifeguard(){menu(); const logged=sessionStorage.getItem('bsGuard'); if(!logged){showGuardLogin();return} const g=DATA.lifeguards.find(x=>x.id===logged)||DATA.lifeguards[0]; $('#lifeguardShell')?.classList.remove('hidden'); $('#guardName')&&( $('#guardName').textContent=g.name); const assigned=DATA.points.find(p=>p.guard===g.id)||DATA.points[0]; $('#guardPoint')&&( $('#guardPoint').textContent=assigned.title); $('#guardInstruction')&&( $('#guardInstruction').textContent=assigned.instruction); $('#guardSea')&&( $('#guardSea').textContent=DATA.weather.status+' | موج '+DATA.weather.waveHeight+'م'); $('#incidentBtn')&&($('#incidentBtn').onclick=()=>{const row={time:new Date().toLocaleString('ar-EG'),by:g.name,point:assigned.title,type:$('#incType').value,note:$('#incNote').value}; DATA.incidents.unshift(row); save(); sheetSubmit({kind:'incident',...row}); alert('تم تسجيل الحالة'); $('#incNote').value=''}); $('#requestBtn')&&($('#requestBtn').onclick=()=>{const row={time:new Date().toLocaleString('ar-EG'),by:g.name,type:$('#reqType').value,note:$('#reqNote').value}; DATA.requests.unshift(row); save(); sheetSubmit({kind:'request',...row}); alert('تم إرسال الطلب'); $('#reqNote').value=''})}
 function showGuardLogin(){const root=$('#loginRoot'); root.classList.remove('hidden'); $('#lifeguardShell')?.classList.add('hidden'); root.innerHTML=`<div class="login-box card"><h2>دخول المنقذ</h2><p class="small">اختار اسمك وكلمة المرور التجريبية 1234</p><div class="field"><label>المنقذ</label><select id="gsel">${DATA.lifeguards.map(g=>`<option value="${g.id}">${g.name}</option>`).join('')}</select></div><div class="field"><label>كلمة المرور</label><input id="gpw" type="password" value="1234"></div><button class="btn" id="glogin">دخول</button><p id="gerr" class="small"></p></div>`; $('#glogin').onclick=()=>{if($('#gpw').value===DATA.lifeguardPassword){sessionStorage.setItem('bsGuard',$('#gsel').value);location.reload()}else $('#gerr').textContent='كلمة المرور غير صحيحة'}}
 window.BS={renderPublic,renderAdmin,renderLifeguard,runAI,logout(){sessionStorage.clear();location.reload()}};
-})();
-const AI_URL =
+ const AI_URL =
 'https://blue-sentinel-ai.moozasalah138.workers.dev/chat';
 
 const askBtn = document.getElementById('askAI');
@@ -129,3 +128,5 @@ if (askBtn) {
     }
   };
 }
+
+})();
