@@ -16,3 +16,290 @@
 .warn-text{color:#ffc1c8;background:rgba(255,77,95,.12);border-right:4px solid #ff4d5f;padding:10px;border-radius:12px}
 @media(max-width:900px){.beach-map{min-height:390px}.point{width:18px;height:18px;border-width:2px}.point span{font-size:7px}.point.marina{width:23px;height:23px}.map-group-label{font-size:9px;padding:4px 6px}.danger-zone{font-size:8px}.legend{font-size:11px;gap:7px;left:8px;bottom:8px}}
 .ai-box{background:rgba(46,181,255,.08);border:1px solid rgba(46,181,255,.18);border-radius:18px;padding:14px;margin-top:10px}.ai-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.ai-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}.ai-kpis span{background:rgba(255,255,255,.06);border:1px solid var(--line);border-radius:12px;padding:9px;font-size:12px;color:#dff6ff}.ai-box ul,.rules{margin:10px 0 0;padding-right:22px;line-height:1.9}.rules li{margin:7px 0;color:#dff6ff}@media(max-width:900px){.ai-kpis{grid-template-columns:repeat(2,1fr)}}
+/* =========================
+   BLUE SENTINEL PUBLIC V2
+========================= */
+
+.public-body{
+  background:#04141f;
+  color:#fff;
+}
+
+.public-wrap{
+  max-width:1400px;
+  margin:auto;
+  padding:20px;
+}
+
+.public-hero{
+  position:relative;
+  min-height:420px;
+  border-radius:28px;
+  overflow:hidden;
+  margin-bottom:24px;
+
+  background:
+  linear-gradient(
+    180deg,
+    rgba(0,0,0,.15),
+    rgba(0,0,0,.65)
+  ),
+  url('./assets/beach-cover.jpg');
+
+  background-size:cover;
+  background-position:center;
+}
+
+.public-hero-overlay{
+  padding:70px 50px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.public-badge{
+  width:max-content;
+  padding:10px 18px;
+  border-radius:999px;
+
+  background:rgba(255,255,255,.12);
+  backdrop-filter:blur(14px);
+}
+
+.public-hero h2{
+  font-size:58px;
+  font-weight:800;
+  margin:0;
+}
+
+.public-hero p{
+  font-size:18px;
+  color:#d7e7f4;
+}
+
+.hero-status-row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.hero-status{
+  padding:12px 22px;
+  border-radius:999px;
+
+  background:#fbbf24;
+  color:#000;
+  font-weight:700;
+}
+
+.hero-shift{
+  padding:12px 22px;
+  border-radius:999px;
+
+  background:rgba(255,255,255,.1);
+  backdrop-filter:blur(12px);
+}
+
+.hero-update{
+  color:#d7e7f4;
+}
+
+/* metrics */
+
+.public-metrics{
+  display:grid;
+  gap:18px;
+
+  grid-template-columns:
+  repeat(auto-fit,minmax(240px,1fr));
+
+  margin-bottom:24px;
+}
+
+.public-metric-card{
+  background:#0b2232;
+
+  border:1px solid rgba(255,255,255,.08);
+
+  border-radius:24px;
+
+  padding:24px;
+
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.public-metric-card span{
+  color:#9ec4d8;
+}
+
+.public-metric-card strong{
+  font-size:34px;
+}
+
+.public-metric-card small{
+  color:#7ea1b6;
+}
+
+.risk-card{
+  background:
+  linear-gradient(
+    135deg,
+    #123349,
+    #0b2232
+  );
+}
+
+/* sections */
+
+.public-section{
+  margin-top:24px;
+}
+
+.public-section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:18px;
+}
+
+.public-section-head h2{
+  margin:0;
+}
+
+.map-note{
+  color:#9ec4d8;
+}
+
+.public-map-shell{
+  background:#071b28;
+  border-radius:26px;
+  padding:20px;
+}
+
+.public-premium-map{
+  min-height:650px;
+}
+
+.public-point-card{
+  margin-top:16px;
+  background:#0b2232;
+  border-radius:20px;
+  padding:20px;
+}
+
+/* news */
+
+.public-grid-two{
+  margin-top:24px;
+
+  display:grid;
+  gap:20px;
+
+  grid-template-columns:
+  1fr 1fr;
+}
+
+.public-panel{
+  background:#0b2232;
+  border-radius:24px;
+  padding:24px;
+}
+
+.compact{
+  margin-bottom:18px;
+}
+
+.public-news-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.public-news-list > *{
+  background:#102d40;
+  padding:16px;
+  border-radius:14px;
+}
+
+.public-ai-box{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+.public-ai-box > *{
+  background:#102d40;
+  padding:14px;
+  border-radius:14px;
+}
+
+.safety-tips{
+  margin-top:20px;
+
+  display:grid;
+  gap:12px;
+}
+
+.safety-tips div{
+  background:#123349;
+  padding:14px;
+  border-radius:12px;
+}
+
+/* timeline */
+
+.public-timeline{
+  margin-top:24px;
+}
+
+.timeline-item{
+  display:flex;
+  gap:18px;
+  align-items:flex-start;
+
+  padding:16px 0;
+
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.timeline-item span{
+  min-width:90px;
+  font-weight:700;
+  color:#39c3f2;
+}
+
+.timeline-item.danger span{
+  color:#ef4444;
+}
+
+.timeline-item p{
+  margin:0;
+}
+
+/* mobile */
+
+@media(max-width:900px){
+
+  .public-grid-two{
+    grid-template-columns:1fr;
+  }
+
+  .public-hero{
+    min-height:320px;
+  }
+
+  .public-hero h2{
+    font-size:42px;
+  }
+
+  .public-hero-overlay{
+    padding:40px 24px;
+  }
+
+  .public-premium-map{
+    min-height:450px;
+  }
+
+}
