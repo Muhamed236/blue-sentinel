@@ -58,5 +58,5 @@ window.BS_DEFAULT_DATA = {
   ],
   incidents:[],
   requests:[],
-  sheetsWebhook:''
+  sheetsWebhook:'https://script.google.com/macros/s/AKfycbyvU_Fw5myPq4TaVpHDM2DsgfuRnd6G1KzS0KdB9tex0rtThE_HOjt-SYBYsf_QM45lTQ/exec'
 };
