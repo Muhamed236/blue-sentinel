@@ -4,4 +4,12 @@
 <main class="wrap"><div class="hero"><div><h2>واجهة العملاء</h2><p>حالة البحر والتحذيرات وخريطة النزول الآمن</p></div><span class="pill" id="shiftText">Shift 09:00 - 19:00</span></div>
 <section class="grid cards4"><div class="card metric"><strong id="wUpdate">09:00</strong><span>آخر تحديث</span></div><div class="card metric"><strong id="wWind">km/h 18</strong><span>سرعة الرياح</span></div><div class="card metric"><strong id="wWave">m 0.6</strong><span>ارتفاع الموج</span></div><div class="card metric"><span class="pill" id="statusPill">البحر مفتوح بحذر</span><strong id="wRisk">38%</strong><span>مؤشر الخطورة</span></div></section>
 <section class="grid cols" style="margin-top:16px"><div class="card"><h2>أخبار وتحذيرات اليوم</h2><div id="publicNews"></div><div id="aiPublic" style="margin-top:12px"></div><div class="card" id="pointDetails" style="margin-top:14px"><h3>تفاصيل النقطة</h3><p class="small">اضغط على أي نقطة في الخريطة لعرض التعليمات العامة للزوار.</p></div></div><div class="card map-card"><h3>خريطة البحر للعملاء</h3><div class="beach-map map-3d" id="publicMap"></div><p class="small">الأسماء الداخلية غير ظاهرة للزوار. الخريطة تعرض الحالة العامة فقط.</p></div></section>
-</main><script src="data.js"></script><script src="ai-engine.js"></script><script src="app.js"></script><script>BS.renderPublic()</script></body></html>
+</main><script src="data.js"></script><script src="ai-engine.js"></script><script src="app.js"></script><script>
+document.addEventListener("DOMContentLoaded", function () {
+  if (window.BS && typeof window.BS.renderPublic === "function") {
+    window.BS.renderPublic();
+  } else {
+    console.error("BS.renderPublic غير موجود - راجع تحميل app.js");
+  }
+});
+</script>
