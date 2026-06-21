@@ -87,3 +87,45 @@ function renderLifeguard(){menu(); const logged=sessionStorage.getItem('bsGuard'
 function showGuardLogin(){const root=$('#loginRoot'); root.classList.remove('hidden'); $('#lifeguardShell')?.classList.add('hidden'); root.innerHTML=`<div class="login-box card"><h2>دخول المنقذ</h2><p class="small">اختار اسمك وكلمة المرور التجريبية 1234</p><div class="field"><label>المنقذ</label><select id="gsel">${DATA.lifeguards.map(g=>`<option value="${g.id}">${g.name}</option>`).join('')}</select></div><div class="field"><label>كلمة المرور</label><input id="gpw" type="password" value="1234"></div><button class="btn" id="glogin">دخول</button><p id="gerr" class="small"></p></div>`; $('#glogin').onclick=()=>{if($('#gpw').value===DATA.lifeguardPassword){sessionStorage.setItem('bsGuard',$('#gsel').value);location.reload()}else $('#gerr').textContent='كلمة المرور غير صحيحة'}}
 window.BS={renderPublic,renderAdmin,renderLifeguard,runAI,logout(){sessionStorage.clear();location.reload()}};
 })();
+const AI_URL =
+'https://blue-sentinel-ai.moozasalah138.workers.dev/chat';
+
+const askBtn = document.getElementById('askAI');
+
+if (askBtn) {
+  askBtn.onclick = async () => {
+
+    const q =
+      document.getElementById('aiQuestion').value;
+
+    const answerBox =
+      document.getElementById('aiAnswer');
+
+    answerBox.innerHTML = 'جاري التحليل...';
+
+    try {
+
+      const res = await fetch(AI_URL,{
+        method:'POST',
+        headers:{
+          'Content-Type':'application/json'
+        },
+        body:JSON.stringify({
+          message:q
+        })
+      });
+
+      const data = await res.json();
+
+      answerBox.innerHTML =
+        data.answer || 'لا يوجد رد';
+
+    } catch(err){
+
+      answerBox.innerHTML =
+        'فشل الاتصال بالذكاء الاصطناعي';
+
+      console.error(err);
+    }
+  };
+}
