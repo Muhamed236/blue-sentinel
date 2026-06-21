@@ -134,4 +134,43 @@ function bindGeminiChat(){
 }
 
 window.BS={renderPublic,renderAdmin,renderLifeguard,runAI,logout(){sessionStorage.clear();location.reload()}};
+ document.addEventListener("click", async function (e) {
+  if (!e.target || e.target.id !== "askAI") return;
+
+  const question = document.getElementById("aiQuestion");
+  const answerBox = document.getElementById("aiAnswer");
+
+  if (!question || !answerBox) {
+    console.error("عناصر الشات غير موجودة");
+    return;
+  }
+
+  const msg = question.value.trim();
+
+  if (!msg) {
+    answerBox.innerHTML = "اكتب السؤال الأول.";
+    return;
+  }
+
+  answerBox.innerHTML = "جاري التحليل...";
+
+  try {
+    const res = await fetch("https://blue-sentinel-ai.moozasalah138.workers.dev/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        message: msg
+      })
+    });
+
+    const data = await res.json();
+
+    answerBox.innerHTML = data.answer || "مفيش رد من Gemini.";
+  } catch (err) {
+    console.error(err);
+    answerBox.innerHTML = "فشل الاتصال بـ Gemini.";
+  }
+});
 })();
