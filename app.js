@@ -69,8 +69,45 @@ async function runAI(publish=false){
 function renderPublic(){menu(); $('#shiftText')&&( $('#shiftText').textContent='Shift '+DATA.shift); $('#wUpdate')&&($('#wUpdate').textContent=DATA.weather.updated); $('#wWind')&&($('#wWind').textContent='km/h '+DATA.weather.windSpeed); $('#wWave')&&($('#wWave').textContent='m '+DATA.weather.waveHeight); $('#wRisk')&&($('#wRisk').textContent=DATA.weather.risk+'%'); $('#statusPill')&&($('#statusPill').textContent=DATA.weather.status); const n=$('#publicNews'); if(n){n.innerHTML=DATA.publicNews.map(x=>`<div class="news-item ${x.type.includes('تحذير')?'warn':''}"><b>${x.type}</b>${x.text}</div>`).join('')} map($('#publicMap'),{public:true}); const ai=$('#aiPublic'); if(ai) ai.innerHTML=aiHtml();}
 function requireAdmin(){ if(sessionStorage.getItem('bsAdmin')==='1') return true; location.href='admin.html#login'; return false;}
 function renderAdmin(){menu(); pageNav(); if(location.hash==='#login'||sessionStorage.getItem('bsAdmin')!=='1'){showLogin('admin'); return} $('#adminShell')?.classList.remove('hidden'); $('#adminName')&&( $('#adminName').textContent=DATA.supervisor.name); map($('#adminMap'),{}); renderTables(); bindForms(); bindGeminiChat(); const ai=$('#aiResult'); if(ai) ai.innerHTML=aiHtml();}
-function showLogin(type){ const root=$('#loginRoot'); if(!root)return; root.classList.remove('hidden'); $('#adminShell')?.classList.add('hidden'); $('#lifeguardShell')?.classList.add('hidden'); if(type==='admin'){root.innerHTML=`<div class="login-box card"><h2>دخول المشرف</h2><p class="small">الحساب التجريبي: admin / 1234</p><div class="field"><label>اسم المستخدم</label><input id="u" value="admin"></div><div class="field"><label>كلمة المرور</label><input id="p" type="password" value="1234"></div><button class="btn" id="doLogin">دخول</button><p id="err" class="small"></p></div>`; $('#doLogin').onclick=()=>{if($('#u').value===DATA.supervisor.username&&$('#p').value===DATA.supervisor.password){sessionStorage.setItem('bsAdmin','1');location.href='admin.html';location.reload()}else $('#err').textContent='بيانات الدخول غير صحيحة'} } }
-function renderTables(){ const roster=$('#roster'); if(roster){roster.innerHTML=DATA.points.map(p=>`<tr><td>${p.no}</td><td>${p.title}</td><td><span class="tag ${riskClass(p.risk)}">${riskText(p.risk)}</span></td><td>${guardName(p.guard)}</td><td>${p.instruction}</td></tr>`).join('')}
+function showLogin(type){
+  const root=$('#loginRoot');
+  if(!root)return;
+
+  root.classList.remove('hidden');
+  $('#adminShell')?.classList.add('hidden');
+  $('#lifeguardShell')?.classList.add('hidden');
+
+  if(type==='admin'){
+    root.innerHTML=`
+      <div class="login-box card">
+        <h2>دخول المشرف</h2>
+
+        <div class="field">
+          <label>اسم المستخدم</label>
+          <input id="u" placeholder="اكتب اسم المستخدم" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label>كلمة المرور</label>
+          <input id="p" type="password" placeholder="اكتب كلمة المرور" autocomplete="off">
+        </div>
+
+        <button class="btn" id="doLogin">دخول</button>
+        <p id="err" class="small"></p>
+      </div>
+    `;
+
+    $('#doLogin').onclick=()=>{
+      if($('#u').value===DATA.supervisor.username && $('#p').value===DATA.supervisor.password){
+        sessionStorage.setItem('bsAdmin','1');
+        location.href='admin.html';
+        location.reload();
+      }else{
+        $('#err').textContent='بيانات الدخول غير صحيحة';
+      }
+    };
+  }
+}function renderTables(){ const roster=$('#roster'); if(roster){roster.innerHTML=DATA.points.map(p=>`<tr><td>${p.no}</td><td>${p.title}</td><td><span class="tag ${riskClass(p.risk)}">${riskText(p.risk)}</span></td><td>${guardName(p.guard)}</td><td>${p.instruction}</td></tr>`).join('')}
  const guards=$('#guardsTable'); if(guards){guards.innerHTML=DATA.lifeguards.map(g=>`<tr><td><input data-k="name" data-id="${g.id}" value="${g.name}"></td><td><input data-k="phone" data-id="${g.id}" value="${g.phone}"></td><td><input data-k="salary" data-id="${g.id}" value="${g.salary}"></td></tr>`).join(''); $$('input[data-id]',guards).forEach(i=>i.onchange=()=>{let g=DATA.lifeguards.find(x=>x.id===i.dataset.id); g[i.dataset.k]=i.value; save(); renderTables();})}
  const pointEdit=$('#pointsEdit'); if(pointEdit){pointEdit.innerHTML=DATA.points.map(p=>`<tr><td>${p.no}</td><td><input data-p="title" data-id="${p.id}" value="${p.title}"></td><td><select data-p="risk" data-id="${p.id}"><option value="safe" ${p.risk==='safe'?'selected':''}>آمن</option><option value="caution" ${p.risk==='caution'?'selected':''}>حذر</option><option value="danger" ${p.risk==='danger'?'selected':''}>خطر</option></select></td><td><select data-p="guard" data-id="${p.id}"><option value="">غير محدد</option>${DATA.lifeguards.map(g=>`<option value="${g.id}" ${p.guard===g.id?'selected':''}>${g.name}</option>`).join('')}</select></td><td><input data-p="instruction" data-id="${p.id}" value="${p.instruction}"></td></tr>`).join(''); $$('[data-p]',pointEdit).forEach(i=>i.onchange=()=>{let p=DATA.points.find(x=>x.id===i.dataset.id); p[i.dataset.p]=i.value; save(); map($('#adminMap'),{}); renderTables();})}
  $('#incidentsTable')&&($('#incidentsTable').innerHTML=DATA.incidents.map(x=>`<tr><td>${x.time}</td><td>${x.point}</td><td>${x.type}</td><td>${x.note}</td><td>${x.by}</td></tr>`).join(''));
