@@ -303,3 +303,24 @@
   }
 
 }
+.powered-by{
+  text-align:center;
+  padding:18px;
+  margin-top:30px;
+
+  color:#8aa9bc;
+  font-size:13px;
+
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.powered-by a{
+  color:#39c3f2;
+  text-decoration:none;
+  font-weight:700;
+  letter-spacing:.5px;
+}
+
+.powered-by a:hover{
+  color:#6fd7ff;
+}
