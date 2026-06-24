@@ -24,8 +24,54 @@ function map(el,opts={}){ if(!el)return; el.innerHTML=''; el.classList.toggle('a
  DATA.points.forEach(p=>{const d=document.createElement('button');d.className='point '+riskClass(p.risk)+(p.marina?' marina':'');d.style.left=p.x+'%';d.style.top=p.y+'%';d.title=p.title+' - '+riskText(p.risk);d.innerHTML='<span>'+(!opts.public?p.no:'')+'</span>'; d.onclick=()=>{selectPoint(p,opts)};el.appendChild(d)});
  const leg=document.createElement('div');leg.className='legend';leg.innerHTML='<span><i class="dot safe-bg"></i>آمن</span><span><i class="dot caution-bg"></i>حذر</span><span><i class="dot danger-bg"></i>خطر/مارينا</span><span><i class="dot blue-bg"></i>اضغط للتفاصيل</span>';el.appendChild(leg);
 }
-function selectPoint(p,opts){ $$('.point').forEach(x=>x.classList.remove('selected')); if(event?.currentTarget) event.currentTarget.classList.add('selected'); const panel=$('#pointDetails'); if(panel){ panel.innerHTML=`<h3>${p.title}</h3><p><b>الحالة:</b> <span class="tag ${riskClass(p.risk)}">${riskText(p.risk)}</span></p><p><b>المنقذ:</b> ${opts.public?'غير ظاهر للزوار':guardName(p.guard)}</p><p><b>تعليمات:</b> ${p.instruction}</p>${p.requiredGuards?`<p><b>عدد المنقذين المطلوب:</b> ${p.requiredGuards}</p>`:''}${p.marina?`<p class="warn-text"><b>تنبيه:</b> ممنوع النزول تحت المارينا نهائياً.</p>`:''}`; panel.classList.remove('hidden'); }}
+function selectPoint(p,opts){
+  $$('.point').forEach(x=>x.classList.remove('selected'));
 
+  if(event?.currentTarget){
+    event.currentTarget.classList.add('selected');
+  }
+
+  const panel = $('#pointDetails');
+
+  if(panel){
+    panel.innerHTML = `
+      <h3>${p.title}</h3>
+
+      <p>
+        <b>الحالة:</b>
+        <span class="tag ${riskClass(p.risk)}">
+          ${riskText(p.risk)}
+        </span>
+      </p>
+
+      <p>
+        <b>المنقذ:</b>
+        ${guardName(p.guard)}
+      </p>
+
+      <p>
+        <b>تعليمات:</b>
+        ${p.instruction}
+      </p>
+
+      ${p.requiredGuards ? `
+        <p>
+          <b>عدد المنقذين المطلوب:</b>
+          ${p.requiredGuards}
+        </p>
+      ` : ''}
+
+      ${p.marina ? `
+        <p class="warn-text">
+          <b>تنبيه:</b>
+          ممنوع النزول تحت المارينا نهائياً.
+        </p>
+      ` : ''}
+    `;
+
+    panel.classList.remove('hidden');
+  }
+}
 function applyAIResult(pack, publish=false){
   DATA.weather.updated=pack.updated||DATA.weather.updated;
   DATA.weather.waveHeight=Number(pack.waveHeight||DATA.weather.waveHeight).toFixed(1).replace('.0','');
