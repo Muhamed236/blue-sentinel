@@ -170,8 +170,74 @@ function bindForms(){ $('#runAI')&&($('#runAI').onclick=()=>runAI(false)); $('#r
 function csv(){const rows=[['type','time','by','point','request_or_incident','note','status'],...DATA.incidents.map(x=>['incident',x.time,x.by,x.point,x.type,x.note,'']),...DATA.requests.map(x=>['request',x.time,x.by,'',x.type,x.note,x.status||'جديد'])];return rows.map(r=>r.map(v=>'"'+String(v||'').replaceAll('"','""')+'"').join(',')).join('\n')}
 function download(name,content,type){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type}));a.download=name;a.click()}
 async function sheetSubmit(row){ if(!DATA.sheetsWebhook)return; try{await fetch(DATA.sheetsWebhook,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(row)})}catch(e){} }
-function renderLifeguard(){menu(); const logged=sessionStorage.getItem('bsGuard'); if(!logged){showGuardLogin();return} const g=DATA.lifeguards.find(x=>x.id===logged)||DATA.lifeguards[0]; $('#lifeguardShell')?.classList.remove('hidden'); $('#guardName')&&( $('#guardName').textContent=g.name); const assigned=DATA.points.find(p=>p.guard===g.id)||DATA.points[0]; $('#guardPoint')&&( $('#guardPoint').textContent=assigned.title); $('#guardInstruction')&&( $('#guardInstruction').textContent=assigned.instruction); $('#guardSea')&&( $('#guardSea').textContent=DATA.weather.status+' | موج '+DATA.weather.waveHeight+'م'); $('#incidentBtn')&&($('#incidentBtn').onclick=()=>{const row={time:new Date().toLocaleString('ar-EG'),by:g.name,point:assigned.title,type:$('#incType').value,note:$('#incNote').value}; DATA.incidents.unshift(row); save(); sheetSubmit({kind:'incident',...row}); alert('تم تسجيل الحالة'); $('#incNote').value=''}); $('#requestBtn')&&($('#requestBtn').onclick=()=>{const row={time:new Date().toLocaleString('ar-EG'),by:g.name,type:$('#reqType').value,note:$('#reqNote').value,status:'جديد'}; DATA.requests.unshift(row); save(); sheetSubmit({kind:'request',...row}); alert('تم إرسال الطلب'); $('#reqNote').value=''})}
-function showGuardLogin(){
+function renderLifeguard(){
+  menu();
+
+  const logged=sessionStorage.getItem('bsGuard');
+
+  if(!logged){
+    showGuardLogin();
+    return;
+  }
+
+  const g=DATA.lifeguards.find(x=>x.id===logged)||DATA.lifeguards[0];
+
+  $('#lifeguardShell')?.classList.remove('hidden');
+  $('#guardName')&&($('#guardName').textContent=g.name);
+
+  const assigned=DATA.points.find(p=>p.guard===g.id)||DATA.points[0];
+
+  $('#guardPoint')&&($('#guardPoint').textContent=assigned.title);
+  $('#guardInstruction')&&($('#guardInstruction').textContent=assigned.instruction);
+  $('#guardSea')&&($('#guardSea').textContent=DATA.weather.status+' | موج '+DATA.weather.waveHeight+'م');
+
+  $('#incidentBtn')&&($('#incidentBtn').onclick=()=>{
+    const row={
+      time:new Date().toLocaleString('ar-EG'),
+      by:g.name,
+      point:assigned.title,
+      type:$('#incType').value,
+      note:$('#incNote').value
+    };
+
+    DATA.incidents.unshift(row);
+
+    DATA.publicNews.unshift({
+      type:'حدث جديد',
+      text:`${row.type} في ${row.point} - ${row.note || 'تم تسجيل الحالة بواسطة فريق الإنقاذ.'}`
+    });
+
+    DATA.publicNews = DATA.publicNews.slice(0,6);
+
+    save();
+
+    sheetSubmit({kind:'incident',...row});
+
+    alert('تم تسجيل الحالة وظهورها في أخبار الزوار');
+
+    $('#incNote').value='';
+  });
+
+  $('#requestBtn')&&($('#requestBtn').onclick=()=>{
+    const row={
+      time:new Date().toLocaleString('ar-EG'),
+      by:g.name,
+      type:$('#reqType').value,
+      note:$('#reqNote').value,
+      status:'مربوط'
+    };
+
+    DATA.requests.unshift(row);
+
+    save();
+
+    sheetSubmit({kind:'request',...row});
+
+    alert('تم إرسال الطلب');
+
+    $('#reqNote').value='';
+  });
+}function showGuardLogin(){
   const root = $('#loginRoot');
 
   root.classList.remove('hidden');
