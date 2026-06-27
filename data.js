@@ -13,19 +13,20 @@ window.BS_DEFAULT_DATA = {
     {type:'تشغيل', text:'الشيفت الرسمي من 9 صباحاً حتى 7 مساءً.'}
   ],
   lifeguards:[
+    {id:'lg0', name:'غير محدد', phone:'', salary:0, role:'منقذ'},
     {id:'lg1', name:'محمد صلاح', phone:'', salary:0, role:'منقذ'},
-    {id:'lg1', name:'أحمد علاء', phone:'', salary:0, role:'منقذ'},
-    {id:'lg2', name:'محمد النوبي', phone:'', salary:0, role:'منقذ'},
-    {id:'lg3', name:'اسلام عمر', phone:'', salary:0, role:'منقذ'},
-    {id:'lg4', name:'سامح احمد', phone:'', salary:0, role:'منقذ'},
-    {id:'lg5', name:'بلال ابراهيم', phone:'', salary:0, role:'منقذ'},
-    {id:'lg5', name:'اسلام خلف', phone:'', salary:0, role:'منقذ'},
-    {id:'lg5', name:'رضي خلف', phone:'', salary:0, role:'منقذ'},
-    {id:'lg5', name:'اسلام محمود', phone:'', salary:0, role:'منقذ'},
-    {id:'lg5', name:'عبدالرحمن صديق', phone:'', salary:0, role:'منقذ'},
-    {id:'lg5', name:'عبدالله منتصر', phone:'', salary:0, role:'منقذ'},
-    {id:'lg5', name:'اسلام ابوالحجاج', phone:'', salary:0, role:'منقذ'},
-    {id:'lg6', name:'محمد ناجح', phone:'', salary:0, role:'منقذ'}
+    {id:'lg2', name:'أحمد علاء', phone:'', salary:0, role:'منقذ'},
+    {id:'lg3', name:'محمد النوبي', phone:'', salary:0, role:'منقذ'},
+    {id:'lg4', name:'اسلام عمر', phone:'', salary:0, role:'منقذ'},
+    {id:'lg5', name:'سامح احمد', phone:'', salary:0, role:'منقذ'},
+    {id:'lg6', name:'بلال ابراهيم', phone:'', salary:0, role:'منقذ'},
+    {id:'lg7', name:'اسلام خلف', phone:'', salary:0, role:'منقذ'},
+    {id:'lg8', name:'رضي خلف', phone:'', salary:0, role:'منقذ'},
+    {id:'lg9', name:'اسلام محمود', phone:'', salary:0, role:'منقذ'},
+    {id:'lg10', name:'عبدالرحمن صديق', phone:'', salary:0, role:'منقذ'},
+    {id:'lg11', name:'عبدالله منتصر', phone:'', salary:0, role:'منقذ'},
+    {id:'lg12', name:'اسلام ابوالحجاج', phone:'', salary:0, role:'منقذ'},
+    {id:'lg13', name:'محمد ناجح', phone:'', salary:0, role:'منقذ'}
   ],
   points:[
     // PAY WEST shore points
