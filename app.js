@@ -1,5 +1,5 @@
 (function(){
-const LS='blueSentinelDataV4';
+const LS='blueSentinelDataV5';
 const AI_CHAT_URL='https://blue-sentinel-ai.moozasalah138.workers.dev/chat';
 let DATA=loadData();
 function clone(o){return JSON.parse(JSON.stringify(o))}
