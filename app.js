@@ -140,6 +140,7 @@ function renderPublic(){
 
     // مهم جداً
     bindGuestFeedback();
+ startPublicHeroCarousel();
 }function requireAdmin(){ if(sessionStorage.getItem('bsAdmin')==='1') return true; location.href='admin.html#login'; return false;}
 function renderAdmin(){menu(); pageNav(); if(location.hash==='#login'||sessionStorage.getItem('bsAdmin')!=='1'){showLogin('admin'); return} $('#adminShell')?.classList.remove('hidden'); $('#adminName')&&( $('#adminName').textContent=DATA.supervisor.name); map($('#adminMap'),{}); renderTables(); bindForms(); bindGeminiChat(); const ai=$('#aiResult'); if(ai) ai.innerHTML=aiHtml();}
 function showLogin(type){
