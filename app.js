@@ -435,7 +435,7 @@ window.BS={renderPublic,renderAdmin,renderLifeguard,runAI,logout(){sessionStorag
     answerBox.innerHTML = "فشل الاتصال بـ Gemini.";
   }
 });
- function bindGuestFeedback(){
+function bindGuestFeedback(){
   const btn = $('#guestSend');
   if(!btn) return;
 
@@ -449,20 +449,21 @@ window.BS={renderPublic,renderAdmin,renderLifeguard,runAI,logout(){sessionStorag
       status: 'جديد'
     };
 
-    DATA.suggestions = DATA.suggestions || [];
-DATA.suggestions.unshift(row);
-save();
+    if(!row.name || !row.phone || !row.note){
       alert('من فضلك اكتب الاسم ورقم الموبايل والملاحظة');
       return;
     }
 
-    await sheetSubmit({
+    DATA.suggestions = DATA.suggestions || [];
+    DATA.suggestions.unshift(row);
+    save();
+
+    sheetSubmit({
       kind: 'suggestion',
       ...row
     });
-DATA.suggestions.unshift(row);
-save();
-    alert('تم إرسال رسالتك بنجاح');
+
+    alert('✅ تم إرسال الرسالة بنجاح، شكرًا لمشاركتك.');
 
     $('#guestName').value = '';
     $('#guestPhone').value = '';
