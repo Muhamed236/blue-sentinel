@@ -379,4 +379,35 @@ window.BS={renderPublic,renderAdmin,renderLifeguard,runAI,logout(){sessionStorag
     answerBox.innerHTML = "فشل الاتصال بـ Gemini.";
   }
 });
+ function bindGuestFeedback(){
+  const btn = $('#guestSend');
+  if(!btn) return;
+
+  btn.onclick = async () => {
+    const row = {
+      time: new Date().toLocaleString('ar-EG'),
+      name: $('#guestName')?.value.trim() || '',
+      phone: $('#guestPhone')?.value.trim() || '',
+      type: $('#guestType')?.value || 'ملاحظة',
+      note: $('#guestNote')?.value.trim() || '',
+      status: 'جديد'
+    };
+
+    if(!row.name || !row.phone || !row.note){
+      alert('من فضلك اكتب الاسم ورقم الموبايل والملاحظة');
+      return;
+    }
+
+    await sheetSubmit({
+      kind: 'suggestion',
+      ...row
+    });
+
+    alert('تم إرسال رسالتك بنجاح');
+
+    $('#guestName').value = '';
+    $('#guestPhone').value = '';
+    $('#guestNote').value = '';
+  };
+}
 })();
