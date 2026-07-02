@@ -324,3 +324,66 @@
 .powered-by a:hover{
   color:#6fd7ff;
 }
+#guestFeedback{
+  margin-top:32px;
+  margin-bottom:40px;
+  clear:both;
+}
+
+#guestFeedback .public-section-head{
+  display:block;
+  margin-bottom:22px;
+}
+
+.feedback-form{
+  display:grid;
+  gap:18px;
+}
+
+.feedback-form .field{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.feedback-form input,
+.feedback-form select,
+.feedback-form textarea{
+  width:100%;
+  box-sizing:border-box;
+  background:#061a26;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  padding:14px 16px;
+  font-size:15px;
+  outline:none;
+}
+
+.feedback-form textarea{
+  min-height:130px;
+  resize:vertical;
+}
+
+.feedback-form input:focus,
+.feedback-form select:focus,
+.feedback-form textarea:focus{
+  border-color:#39c3f2;
+  box-shadow:0 0 0 3px rgba(57,195,242,.12);
+}
+
+#guestSend{
+  width:max-content;
+  min-width:180px;
+  margin-top:6px;
+}
+
+@media(max-width:768px){
+  #guestFeedback{
+    margin-top:24px;
+  }
+
+  #guestSend{
+    width:100%;
+  }
+}
