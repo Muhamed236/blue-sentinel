@@ -449,7 +449,9 @@ window.BS={renderPublic,renderAdmin,renderLifeguard,runAI,logout(){sessionStorag
       status: 'جديد'
     };
 
-    if(!row.name || !row.phone || !row.note){
+    DATA.suggestions = DATA.suggestions || [];
+DATA.suggestions.unshift(row);
+save();
       alert('من فضلك اكتب الاسم ورقم الموبايل والملاحظة');
       return;
     }
