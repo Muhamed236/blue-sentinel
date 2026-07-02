@@ -403,7 +403,8 @@ window.BS={renderPublic,renderAdmin,renderLifeguard,runAI,logout(){sessionStorag
       kind: 'suggestion',
       ...row
     });
-
+DATA.suggestions.unshift(row);
+save();
     alert('تم إرسال رسالتك بنجاح');
 
     $('#guestName').value = '';
