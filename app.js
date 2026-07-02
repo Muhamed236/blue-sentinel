@@ -112,8 +112,35 @@ async function runAI(publish=false){
   if(publish) alert('تم تحديث التقييم ونشر التحذيرات للعملاء على هذا الجهاز. للنشر العام ارفع data.js أو استخدم Worker/Google Sheets لاحقاً.');
 }
 
-function renderPublic(){menu(); $('#shiftText')&&( $('#shiftText').textContent='Shift '+DATA.shift); $('#wUpdate')&&($('#wUpdate').textContent=DATA.weather.updated); $('#wWind')&&($('#wWind').textContent='km/h '+DATA.weather.windSpeed); $('#wWave')&&($('#wWave').textContent='m '+DATA.weather.waveHeight); $('#wRisk')&&($('#wRisk').textContent=DATA.weather.risk+'%'); $('#statusPill')&&($('#statusPill').textContent=DATA.weather.status); const n=$('#publicNews'); if(n){n.innerHTML=DATA.publicNews.map(x=>`<div class="news-item ${x.type.includes('تحذير')?'warn':''}"><b>${x.type}</b>${x.text}</div>`).join('')} map($('#publicMap'),{public:true}); const ai=$('#aiPublic'); if(ai) ai.innerHTML=aiHtml();}
-function requireAdmin(){ if(sessionStorage.getItem('bsAdmin')==='1') return true; location.href='admin.html#login'; return false;}
+function renderPublic(){
+
+    menu();
+
+    $('#shiftText') && ($('#shiftText').textContent='Shift '+DATA.shift);
+    $('#wUpdate') && ($('#wUpdate').textContent=DATA.weather.updated);
+    $('#wWind') && ($('#wWind').textContent='km/h '+DATA.weather.windSpeed);
+    $('#wWave') && ($('#wWave').textContent='m '+DATA.weather.waveHeight);
+    $('#wRisk') && ($('#wRisk').textContent=DATA.weather.risk+'%');
+    $('#statusPill') && ($('#statusPill').textContent=DATA.weather.status);
+
+    const n = $('#publicNews');
+
+    if(n){
+        n.innerHTML = DATA.publicNews.map(x =>
+            `<div class="news-item ${x.type.includes('تحذير')?'warn':''}">
+                <b>${x.type}</b>${x.text}
+            </div>`
+        ).join('');
+    }
+
+    map($('#publicMap'),{public:true});
+
+    const ai = $('#aiPublic');
+    if(ai) ai.innerHTML = aiHtml();
+
+    // مهم جداً
+    bindGuestFeedback();
+}function requireAdmin(){ if(sessionStorage.getItem('bsAdmin')==='1') return true; location.href='admin.html#login'; return false;}
 function renderAdmin(){menu(); pageNav(); if(location.hash==='#login'||sessionStorage.getItem('bsAdmin')!=='1'){showLogin('admin'); return} $('#adminShell')?.classList.remove('hidden'); $('#adminName')&&( $('#adminName').textContent=DATA.supervisor.name); map($('#adminMap'),{}); renderTables(); bindForms(); bindGeminiChat(); const ai=$('#aiResult'); if(ai) ai.innerHTML=aiHtml();}
 function showLogin(type){
   const root=$('#loginRoot');
