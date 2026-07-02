@@ -322,6 +322,7 @@ function bindGeminiChat(){
             aiReport:DATA.aiReport||{},
             points:DATA.points,
             incidents:DATA.incidents.slice(0,20),
+           suggestions:[],
             requests:DATA.requests.slice(0,20)
           }
         })
