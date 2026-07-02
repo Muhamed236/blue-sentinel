@@ -158,6 +158,34 @@ function showLogin(type){
  const pointEdit=$('#pointsEdit'); if(pointEdit){pointEdit.innerHTML=DATA.points.map(p=>`<tr><td>${p.no}</td><td><input data-p="title" data-id="${p.id}" value="${p.title}"></td><td><select data-p="risk" data-id="${p.id}"><option value="safe" ${p.risk==='safe'?'selected':''}>آمن</option><option value="caution" ${p.risk==='caution'?'selected':''}>حذر</option><option value="danger" ${p.risk==='danger'?'selected':''}>خطر</option></select></td><td><select data-p="guard" data-id="${p.id}"><option value="">غير محدد</option>${DATA.lifeguards.map(g=>`<option value="${g.id}" ${p.guard===g.id?'selected':''}>${g.name}</option>`).join('')}</select></td><td><input data-p="instruction" data-id="${p.id}" value="${p.instruction}"></td></tr>`).join(''); $$('[data-p]',pointEdit).forEach(i=>i.onchange=()=>{let p=DATA.points.find(x=>x.id===i.dataset.id); p[i.dataset.p]=i.value; save(); map($('#adminMap'),{}); renderTables();})}
  $('#incidentsTable')&&($('#incidentsTable').innerHTML=DATA.incidents.map(x=>`<tr><td>${x.time}</td><td>${x.point}</td><td>${x.type}</td><td>${x.note}</td><td>${x.by}</td></tr>`).join(''));
  $('#requestsTable')&&($('#requestsTable').innerHTML=DATA.requests.map((x,i)=>`<tr><td>${safeText(x.time)}</td><td>${safeText(x.by)}</td><td>${safeText(x.type)}</td><td>${safeText(x.note)}</td><td><select class="status-select" data-req-status="${i}"><option ${!x.status||x.status==='جديد'?'selected':''}>جديد</option><option ${x.status==='قيد المراجعة'?'selected':''}>قيد المراجعة</option><option ${x.status==='مقبول'?'selected':''}>مقبول</option><option ${x.status==='مرفوض'?'selected':''}>مرفوض</option><option ${x.status==='تم الصرف'?'selected':''}>تم الصرف</option></select></td></tr>`).join(''));
+                         $('#suggestionsTable')&&($('#suggestionsTable').innerHTML=(DATA.suggestions||[]).map((x,i)=>`
+<tr>
+  <td>${safeText(x.time)}</td>
+  <td>${safeText(x.name)}</td>
+  <td>${safeText(x.phone)}</td>
+  <td>${safeText(x.type)}</td>
+  <td>${safeText(x.note)}</td>
+  <td>
+    <select class="status-select" data-suggestion-status="${i}">
+      <option value="جديد" ${!x.status||x.status==='جديد'?'selected':''}>جديد</option>
+      <option value="جاري المراجعة" ${x.status==='جاري المراجعة'?'selected':''}>جاري المراجعة</option>
+      <option value="تم التنفيذ" ${x.status==='تم التنفيذ'?'selected':''}>تم التنفيذ</option>
+      <option value="مغلق" ${x.status==='مغلق'?'selected':''}>مغلق</option>
+    </select>
+  </td>
+</tr>
+`).join(''));
+
+$$('[data-suggestion-status]').forEach(sel=>{
+  sel.onchange=()=>{
+    const i=Number(sel.dataset.suggestionStatus);
+    if(DATA.suggestions[i]){
+      DATA.suggestions[i].status=sel.value;
+      save();
+      renderTables();
+    }
+  };
+});
  $$('[data-req-status]').forEach(sel=>sel.onchange=()=>{const i=Number(sel.dataset.reqStatus); if(DATA.requests[i]){DATA.requests[i].status=sel.value; save(); renderTables();}});
 }
 function bindForms(){ $('#runAI')&&($('#runAI').onclick=()=>runAI(false)); $('#runAIPublish')&&($('#runAIPublish').onclick=()=>runAI(true));
@@ -322,6 +350,7 @@ function bindGeminiChat(){
             aiReport:DATA.aiReport||{},
             points:DATA.points,
             incidents:DATA.incidents.slice(0,20),
+           suggestions:[],
             requests:DATA.requests.slice(0,20)
           }
         })
@@ -379,4 +408,36 @@ window.BS={renderPublic,renderAdmin,renderLifeguard,runAI,logout(){sessionStorag
     answerBox.innerHTML = "فشل الاتصال بـ Gemini.";
   }
 });
+ function bindGuestFeedback(){
+  const btn = $('#guestSend');
+  if(!btn) return;
+
+  btn.onclick = async () => {
+    const row = {
+      time: new Date().toLocaleString('ar-EG'),
+      name: $('#guestName')?.value.trim() || '',
+      phone: $('#guestPhone')?.value.trim() || '',
+      type: $('#guestType')?.value || 'ملاحظة',
+      note: $('#guestNote')?.value.trim() || '',
+      status: 'جديد'
+    };
+
+    if(!row.name || !row.phone || !row.note){
+      alert('من فضلك اكتب الاسم ورقم الموبايل والملاحظة');
+      return;
+    }
+
+    await sheetSubmit({
+      kind: 'suggestion',
+      ...row
+    });
+DATA.suggestions.unshift(row);
+save();
+    alert('تم إرسال رسالتك بنجاح');
+
+    $('#guestName').value = '';
+    $('#guestPhone').value = '';
+    $('#guestNote').value = '';
+  };
+}
 })();

@@ -136,7 +136,64 @@
       <p>ممنوع النزول أو السباحة أسفل المارينا نهائيًا.</p>
     </div>
   </section>
+<section class="public-panel" id="guestFeedback">
 
+  <div class="public-section-head compact">
+    <h2>💬 صوت الزائر</h2>
+    <p>شاركنا اقتراحك أو ملاحظتك لمساعدتنا على تحسين الخدمة.</p>
+  </div>
+
+  <div class="feedback-form">
+
+    <div class="field">
+      <label>الاسم</label>
+      <input
+        id="guestName"
+        type="text"
+        placeholder="اكتب اسمك">
+    </div>
+
+    <div class="field">
+      <label>رقم الموبايل</label>
+      <input
+        id="guestPhone"
+        type="tel"
+        placeholder="01xxxxxxxxx">
+    </div>
+
+    <div class="field">
+      <label>نوع الرسالة</label>
+
+      <select id="guestType">
+        <option>اقتراح</option>
+        <option>شكوى</option>
+        <option>ملاحظة</option>
+        <option>بلاغ</option>
+        <option>شكر</option>
+      </select>
+
+    </div>
+
+    <div class="field">
+      <label>الملاحظة</label>
+
+      <textarea
+        id="guestNote"
+        rows="5"
+        placeholder="اكتب رسالتك هنا..."></textarea>
+    </div>
+
+    <button
+      class="btn"
+      id="guestSend">
+
+      إرسال الرسالة
+
+    </button>
+
+  </div>
+
+</section>
 </main>
 
 <script src="data.js"></script>

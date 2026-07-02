@@ -1,4 +1,13 @@
-<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Blue Sentinel | لوحة المشرف</title><link rel="stylesheet" href="styles.css"></head><body>
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Blue Sentinel | لوحة المشرف</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
 <div id="loginRoot" class="login hidden"></div>
 <div id="adminShell" class="hidden"><header class="topbar"><div class="brand"><div class="logo">BS</div><div><h1>Blue Sentinel</h1><p>لوحة المشرف</p></div></div><div><span class="pill">مرحباً: <b id="adminName">مشرف</b></span> <button class="menu-btn" id="menuBtn">☰ القائمة</button></div></header>
 <nav class="menu-pop" id="menuPop"><a href="index.html">واجهة العملاء</a><a class="active" href="admin.html">لوحة المشرف</a><a href="lifeguard.html">صفحة المنقذ</a><button onclick="BS.logout()">تسجيل الخروج</button></nav>
@@ -53,26 +62,24 @@
   </div>
 </div>
 
+<footer class="powered-by">
+  Powered By
+  <a href="https://advoxcrew.site" target="_blank">ADVOXCREW.SITE</a>
+</footer>
+
 <script src="data.js"></script>
 <script src="ai-engine.js"></script>
 <script src="app.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-
   if (window.BS && typeof window.BS.renderAdmin === "function") {
     window.BS.renderAdmin();
   } else {
     console.error("BS.renderAdmin غير موجود");
   }
-
 });
 </script>
-</div>
-<footer class="powered-by">
-  Powered By
-  <a href="https://advoxcrew.site" target="_blank">
-    ADVOXCREW.SITE
-  </a>
-</footer>
-</body></html>
+
+</body>
+</html>
