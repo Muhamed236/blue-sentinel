@@ -8,8 +8,73 @@
 <section id="edit" class="page"><div class="grid cols"><div class="card"><h2>تعديل حالة البحر</h2><div class="form-grid"><div class="field"><label>آخر تحديث</label><input id="weatherTime" value="09:00"></div><div class="field"><label>ارتفاع الموج</label><input id="waveHeight" value="0.6"></div><div class="field"><label>سرعة الرياح</label><input id="windSpeed" value="18"></div><div class="field"><label>مؤشر الخطورة</label><input id="riskIndex" value="38"></div></div><div class="field"><label>حالة البحر</label><input id="seaStatus" value="البحر مفتوح بحذر"></div><button class="btn" id="saveWeather">حفظ حالة البحر</button></div><div class="card"><h2>تصدير / استرجاع</h2><button class="btn" id="exportData">تصدير data.json</button> <button class="btn secondary" id="exportCsv">تصدير تقرير CSV</button> <button class="btn danger" id="resetData">رجوع للداتا الأساسية</button><p class="small">أي تعديل بيتحفظ على نفس المتصفح باستخدام localStorage.</p></div></div><div class="card" style="margin-top:16px"><h2>تعديل المنقذين</h2><table class="table"><thead><tr><th>الاسم</th><th>الموبايل</th><th>المرتب</th></tr></thead><tbody id="guardsTable"></tbody></table></div><div class="card" style="margin-top:16px"><h2>تعديل النقاط والتعليمات</h2><table class="table"><thead><tr><th>#</th><th>النقطة</th><th>الحالة</th><th>المنقذ</th><th>التعليمات</th></tr></thead><tbody id="pointsEdit"></tbody></table></div></section>
 
 <section id="ai" class="page"><div class="grid cols"><div class="card"><h2>تقييم البحر والتوصيات</h2><p class="small">المحرك يسحب بيانات البحر والطقس من Open-Meteo، ثم يطبق Risk Engine بقواعد ثابتة قبل توليد التوصيات.</p><div class="form-grid"><div class="field"><label>زوار متوقعين</label><input id="expectedVisitors" value="1200"></div><div class="field"><label>حوادث أمس</label><input id="yesterdayIncidents" value="0"></div></div><button class="btn" id="runAI">تحديث حالة البحر الآن</button> <button class="btn secondary" id="runAIPublish">تحديث ونشر أخبار العملاء</button><div id="aiResult" style="margin-top:14px"></div></div><div class="card"><h2>قواعد Risk Engine</h2><ul class="rules"><li>إذا كان ارتفاع الموج أكبر من 1.2م أو الرياح أكبر من 25 كم/س = خطر عالي.</li><li>إذا كان الموج من 0.5م إلى 1.2م أو الرياح من 15 إلى 25 كم/س = خطر متوسط.</li><li>كل مارينا تحتاج 2 منقذين مع منع النزول تحتها نهائياً.</li><li>كل توصية للزوار لا تنشر إلا بعد اعتماد المشرف.</li></ul></div></div></section>
-<section id="incidents" class="page"><div class="grid cols"><div class="card"><h2>الحالات المسجلة</h2><table class="table"><thead><tr><th>الوقت</th><th>النقطة</th><th>النوع</th><th>ملاحظات</th><th>بواسطة</th></tr></thead><tbody id="incidentsTable"></tbody></table></div><div class="card"><h2>طلبات المنقذين</h2><table class="table"><thead><tr><th>الوقت</th><th>المنقذ</th><th>الطلب</th><th>ملاحظات</th><th>الحالة</th></tr></thead><tbody id="requestsTable"></tbody></table></div></div></section>
-<section id="sheets" class="page"><div class="card"><h2>ربط Google Sheets</h2><p>ضع رابط Web App من Google Apps Script هنا، وسيتم إرسال الحالات والطلبات عند التسجيل من صفحة المنقذ.</p><div class="field"><label>Google Sheets Webhook URL</label><input id="sheetUrl" placeholder="https://script.google.com/macros/s/.../exec"></div><button class="btn" id="saveSheet">حفظ الرابط</button></div></section>
+<section id="incidents" class="page">
+
+  <div class="grid cols">
+
+    <div class="card">
+      <h2>الحالات المسجلة</h2>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>الوقت</th>
+            <th>النقطة</th>
+            <th>النوع</th>
+            <th>ملاحظات</th>
+            <th>بواسطة</th>
+          </tr>
+        </thead>
+
+        <tbody id="incidentsTable"></tbody>
+
+      </table>
+
+    </div>
+
+    <div class="card">
+      <h2>طلبات المنقذين</h2>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>الوقت</th>
+            <th>المنقذ</th>
+            <th>الطلب</th>
+            <th>ملاحظات</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+
+        <tbody id="requestsTable"></tbody>
+
+      </table>
+
+      <hr style="margin:30px 0;border-color:rgba(255,255,255,.08)">
+
+      <h2>💬 مقترحات وملاحظات الزوار</h2>
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>الوقت</th>
+            <th>الاسم</th>
+            <th>الموبايل</th>
+            <th>النوع</th>
+            <th>الملاحظة</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+
+        <tbody id="suggestionsTable"></tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</section><section id="sheets" class="page"><div class="card"><h2>ربط Google Sheets</h2><p>ضع رابط Web App من Google Apps Script هنا، وسيتم إرسال الحالات والطلبات عند التسجيل من صفحة المنقذ.</p><div class="field"><label>Google Sheets Webhook URL</label><input id="sheetUrl" placeholder="https://script.google.com/macros/s/.../exec"></div><button class="btn" id="saveSheet">حفظ الرابط</button></div></section>
 </main><<div class="card" style="margin-top:20px">
   <h3>Blue Sentinel AI Assistant</h3>
 
