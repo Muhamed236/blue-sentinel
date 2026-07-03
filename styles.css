@@ -501,3 +501,47 @@
     gap:14px;
 
 }
+.public-hero{
+  position:relative !important;
+  overflow:hidden !important;
+  background:none !important;
+}
+
+.public-hero-carousel{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:1 !important;
+}
+
+.public-hero-slide{
+  position:absolute !important;
+  inset:0 !important;
+  width:100% !important;
+  height:100% !important;
+  object-fit:cover !important;
+  opacity:0 !important;
+  transform:scale(1.02) !important;
+  transition:opacity 1s ease, transform 6s ease !important;
+}
+
+.public-hero-slide.active{
+  opacity:1 !important;
+}
+
+.public-hero::after{
+  content:"" !important;
+  position:absolute !important;
+  inset:0 !important;
+  z-index:2 !important;
+  background:linear-gradient(
+    90deg,
+    rgba(2,10,16,.18),
+    rgba(2,10,16,.38)
+  ) !important;
+}
+
+.public-hero-overlay{
+  position:relative !important;
+  z-index:3 !important;
+  background:transparent !important;
+}
