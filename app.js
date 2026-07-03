@@ -351,7 +351,7 @@ function startPublicHeroCarousel(){
   if(!slides.length)return;
   carouselStarted=true;
   let index=0;
-  setInterval(()=>{slides[index].classList.remove('active');index=(index+1)%slides.length;slides[index].classList.add('active');},4500);
+  setInterval(()=>{slides[index].classList.remove('active');index=(index+1)%slides.length;slides[index].classList.add('active');},1500);
 }
 async function boot(view){
   await loadSharedSystem();
