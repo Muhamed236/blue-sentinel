@@ -1,7 +1,7 @@
 (function(){
 'use strict';
 
-const LS='blueSentinelDataV7';
+const LS='blueSentinelDataV8';
 const AI_CHAT_URL='https://blue-sentinel-ai.moozasalah138.workers.dev/chat';
 let DATA=normalizeData(loadData());
 let syncTimer=null;
@@ -51,27 +51,24 @@ function riskText(r){return r==='danger'?'خطر':r==='caution'?'حذر':'آمن
 function riskClass(r){return r==='danger'?'danger':r==='caution'?'caution':'safe';}
 
 async function loadSharedSystem(){
-  if(sharedLoaded) return true;
   if(!DATA.sheetsWebhook) return false;
+
   try{
-    const res=await fetch(DATA.sheetsWebhook+'?action=system&ts='+Date.now(),{method:'GET',cache:'no-store'});
-    const json=await res.json();
-    if(json.status==='success' && json.data && Object.keys(json.data).length){
-      const currentWebhook=DATA.sheetsWebhook;
-      isLoadingShared=true;
-      DATA=normalizeData(json.data);
-      if(!DATA.sheetsWebhook) DATA.sheetsWebhook=currentWebhook;
-      saveLocal();
-      isLoadingShared=false;
-      sharedLoaded=true;
+    const res = await fetch(DATA.sheetsWebhook + '?action=system');
+    const json = await res.json();
+
+    if(json.status === 'success' && json.data && Object.keys(json.data).length){
+      DATA = json.data;
+      save();
       return true;
     }
-    sharedLoaded=true;
-    saveSharedSystem();
+
+    // أول مرة: لو الشيت فاضي، ارفع الداتا الحالية عليه
+    await saveSharedSystem();
     return false;
+
   }catch(e){
-    console.warn('loadSharedSystem failed, using local cache',e);
-    sharedLoaded=true;
+    console.error('loadSharedSystem error', e);
     return false;
   }
 }
