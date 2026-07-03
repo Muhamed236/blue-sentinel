@@ -410,8 +410,8 @@
 }
 
 .public-hero-slide.active{
-  opacity:.55;
-  transform:scale(1);
+    opacity:1;
+    transform:scale(1);
 }
 
 .public-hero::after{
