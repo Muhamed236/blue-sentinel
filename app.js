@@ -483,4 +483,41 @@ function bindGuestFeedback(){
     slides[index].classList.add('active');
   }, 4500);
 }
+async function loadSharedSystem(){
+  if(!DATA.sheetsWebhook) return false;
+
+  try{
+    const res = await fetch(DATA.sheetsWebhook + '?action=system');
+    const json = await res.json();
+
+    if(json.status === 'success' && json.data && Object.keys(json.data).length){
+      DATA = json.data;
+      save();
+      return true;
+    }
+
+    return false;
+  }catch(e){
+    console.error('loadSharedSystem error', e);
+    return false;
+  }
+}
+
+async function saveSharedSystem(){
+  if(!DATA.sheetsWebhook) return;
+
+  try{
+    await fetch(DATA.sheetsWebhook,{
+      method:'POST',
+      mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        kind:'system',
+        system:DATA
+      })
+    });
+  }catch(e){
+    console.error('saveSharedSystem error', e);
+  }
+}
 })();
