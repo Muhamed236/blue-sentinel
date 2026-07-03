@@ -430,3 +430,48 @@
   position:relative;
   z-index:2;
 }
+.public-hero-footer{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:40px;
+
+    padding:35px;
+
+    background:#0d2333;
+
+    border-radius:0 0 26px 26px;
+
+}
+
+.hero-info h1{
+
+    font-size:54px;
+
+    margin-bottom:12px;
+
+}
+
+.hero-info p{
+
+    font-size:22px;
+
+    color:#d2dce5;
+
+}
+
+.hero-status{
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:flex-end;
+
+    gap:14px;
+
+}
