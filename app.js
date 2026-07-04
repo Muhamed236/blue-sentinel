@@ -126,7 +126,7 @@ function map(el,opts={}){
   const shore=document.createElement('div'); shore.className='shore-line'; el.appendChild(shore);
   const zones=[{cls:'danger-zone pay',t:'خطر تحت المارينا',l:16.3,w:5.2,top:51},{cls:'danger-zone east',t:'خطر تحت المارينا',l:81.6,w:4.3,top:49.2}];
   zones.forEach(z=>{const d=document.createElement('div');d.className=z.cls;d.style.left=z.l+'%';d.style.width=z.w+'%';d.style.top=z.top+'%';d.textContent=z.t;el.appendChild(d);});
-  const groups=[{t:'PAY WEST',l:7,top:53},{t:'PAY EAST',l:33,top:53},{t:'EAST',l:72,top:53},{t:'MARINA',l:17.5,top:45},{t:'MARINA',l:83,top:44}];
+  const groups=[{t:'BAY WEST',l:7,top:53},{t:'BAY EAST',l:33,top:53},{t:'EAST',l:72,top:53},{t:'MARINA',l:17.5,top:45},{t:'MARINA',l:83,top:44}];
   groups.forEach(g=>{const d=document.createElement('div');d.className='map-group-label';d.style.left=g.l+'%';d.style.top=g.top+'%';d.textContent=g.t;el.appendChild(d);});
   DATA.points.forEach(p=>{
     const d=document.createElement('button');
