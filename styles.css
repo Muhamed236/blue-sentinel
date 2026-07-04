@@ -545,3 +545,29 @@
   z-index:3 !important;
   background:transparent !important;
 }
+/* MAP FINAL FIX */
+.beach-map{
+  position:relative !important;
+  overflow:hidden !important;
+  border-radius:24px !important;
+  border:1px solid rgba(255,255,255,.18) !important;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.22)),
+    url("assets/beach-map.png") center / 100% 100% no-repeat !important;
+  min-height:560px !important;
+  isolation:auto !important;
+}
+
+.beach-map:before,
+.beach-map:after{
+  content:none !important;
+  display:none !important;
+}
+
+.public-premium-map{
+  min-height:560px !important;
+}
+
+.public-map-shell{
+  overflow:visible !important;
+}
