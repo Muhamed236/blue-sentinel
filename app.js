@@ -204,6 +204,7 @@ function renderPublic(){
   $('#wWave')&&($('#wWave').textContent='m '+DATA.weather.waveHeight);
   $('#wRisk')&&($('#wRisk').textContent=DATA.weather.risk+'%');
   $('#statusPill')&&($('#statusPill').textContent=DATA.weather.status);
+  $('#statusCard') && ($('#statusCard').textContent = DATA.weather.status);
   const n=$('#publicNews');
   if(n){n.innerHTML=(DATA.publicNews||[]).map(x=>`<div class="news-item ${String(x.type||'').includes('تحذير')?'warn':''}"><b>${safeText(x.type)}</b>${safeText(x.text)}</div>`).join('');}
   map($('#publicMap'),{public:true});
