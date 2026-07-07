@@ -367,4 +367,30 @@ window.BS={
   runAI,
   logout(){sessionStorage.clear();location.reload();}
 };
+  function startSponsorSlider(){
+
+    const track=document.querySelector(".sponsor-track");
+
+    if(!track) return;
+
+    const slides=track.querySelectorAll("img");
+
+    if(!slides.length) return;
+
+    let current=0;
+
+    setInterval(()=>{
+
+        current++;
+
+        if(current>=slides.length){
+            current=0;
+        }
+
+        track.style.transform=
+            `translateX(-${current*100}%)`;
+
+    },2000);
+
+}
 })();
