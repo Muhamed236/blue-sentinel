@@ -214,18 +214,23 @@ function renderPublic(){
   startSponsorSlider();
 }
   function startSponsorSlider(){
+
   const track = document.querySelector(".sponsor-track");
   if(!track) return;
 
   const slides = track.querySelectorAll("img");
-  if(!slides.length) return;
+  if(slides.length <= 1) return;
 
   let current = 0;
 
   setInterval(()=>{
+
     current = (current + 1) % slides.length;
-    track.style.transform = `translateX(${current * 100}%)`;
-  }, 2000);
+
+    track.style.transform =
+      `translateX(${current * 100}%)`;
+
+  },2000);
 }
 function renderAdmin(){
   menu(); pageNav();
