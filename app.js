@@ -211,7 +211,19 @@ function renderPublic(){
   const ai=$('#aiPublic'); if(ai) ai.innerHTML=aiHtml();
   bindGuestFeedback();
   startPublicHeroCarousel();
-  startSponsorSlider();
+function startSponsorSlider(){
+  const track = document.querySelector(".sponsor-track");
+  if(!track) return;
+
+  const slides = track.querySelectorAll("img");
+  if(!slides.length) return;
+
+  let current = 0;
+
+  setInterval(()=>{
+    current = (current + 1) % slides.length;
+    track.style.transform = `translateX(${current * 100}%)`;
+  }, 2000);
 }
 function renderAdmin(){
   menu(); pageNav();
