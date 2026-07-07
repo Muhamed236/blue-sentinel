@@ -210,7 +210,8 @@ function renderPublic(){
   map($('#publicMap'),{public:true});
   const ai=$('#aiPublic'); if(ai) ai.innerHTML=aiHtml();
   bindGuestFeedback();
-  startPublicHeroCarousel
+  startPublicHeroCarousel();
+  startSponsorSlider();
 }
   function startSponsorSlider(){
   const track = document.querySelector(".sponsor-track");
