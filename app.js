@@ -211,6 +211,7 @@ function renderPublic(){
   const ai=$('#aiPublic'); if(ai) ai.innerHTML=aiHtml();
   bindGuestFeedback();
   startPublicHeroCarousel();
+  startSponsorSlider();
 }
 function renderAdmin(){
   menu(); pageNav();
