@@ -592,6 +592,11 @@
   transition:transform .8s ease;
   direction:ltr;
 }
+.sponsor-track a{
+    min-width:100%;
+    flex:0 0 100%;
+    display:block;
+}
 
 .sponsor-track img{
   width:100%;
