@@ -1215,3 +1215,18 @@
     scroll-snap-align: start;
   }
 }
+.forecast-flag {
+  font-size: 28px;
+}
+
+.forecast-flag-green {
+  color: #20c77a;
+}
+
+.forecast-flag-yellow {
+  color: #f2c94c;
+}
+
+.forecast-flag-red {
+  color: #ff4d5e;
+}
