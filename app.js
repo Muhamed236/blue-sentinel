@@ -698,105 +698,150 @@ const BEACH_FLAG_DATA = {
 };
 
 
-function renderBeachFlag(){
+function getFlagData(flagValue) {
+  const flags = {
+    green: {
+      value: "green",
+      title: "مسموح بالسباحة",
+      description: "حالة البحر مناسبة مع الالتزام بتعليمات فريق الإنقاذ.",
+      badge: "آمن"
+    },
 
-    const flagValue = DATA.flag || "green";
-    const flagData = BEACH_FLAG_DATA[flagValue] || BEACH_FLAG_DATA.green;
+    yellow: {
+      value: "yellow",
+      title: "السباحة بحذر",
+      description: "يجب توخي الحذر ومراقبة الأطفال والالتزام بالمناطق المحددة.",
+      badge: "حذر"
+    },
 
-    const seaFlag = document.getElementById("seaFlag");
-    const flagTitle = document.getElementById("flagTitle");
-    const flagDescription = document.getElementById("flagDescription");
-    const publicFlagBadge = document.getElementById("publicFlagBadge");
-    const flagSelect = document.getElementById("flagSelect");
+    red: {
+      value: "red",
+      title: "السباحة غير آمنة",
+      description: "حالة البحر خطرة ويجب الالتزام بتعليمات فريق الإنقاذ.",
+      badge: "خطر"
+    },
 
-    if(seaFlag){
-        seaFlag.className = `bs-sea-flag bs-flag-${flagValue}`;
-
-        // إعادة تشغيل الأنيميشن عند تغيير اللون
-        seaFlag.style.animation = "none";
-        void seaFlag.offsetWidth;
-        seaFlag.style.animation = "";
+    black: {
+      value: "black",
+      title: "الشاطئ مغلق",
+      description: "ممنوع النزول إلى البحر حتى صدور تعليمات جديدة.",
+      badge: "مغلق"
     }
+  };
 
-    if(flagTitle){
-        flagTitle.textContent = flagData.title;
-    }
-
-    if(flagDescription){
-        flagDescription.textContent = flagData.description;
-    }
-
-    if(publicFlagBadge){
-        publicFlagBadge.textContent = flagData.badge;
-        publicFlagBadge.style.background = flagData.badgeColor;
-    }
-
-    if(flagSelect){
-        flagSelect.value = flagValue;
-    }
+  return flags[flagValue] || flags.green;
 }
 
 
-async function saveFlag(){
+function renderBeachFlag() {
+  const currentFlag =
+    typeof DATA.flag === "string"
+      ? DATA.flag
+      : DATA.flag?.value || "green";
 
-    const flagSelect = document.getElementById("flagSelect");
-    const saveMessage = document.getElementById("flagSaveMessage");
-    const saveButton = document.getElementById("saveFlagButton");
+  const flagData = getFlagData(currentFlag);
 
-    if(!flagSelect){
-        return;
-    }
+  const seaFlag = document.getElementById("seaFlag");
+  const flagTitle = document.getElementById("flagTitle");
+  const flagDescription = document.getElementById("flagDescription");
+  const publicFlagBadge = document.getElementById("publicFlagBadge");
+  const adminFlagSelect = document.getElementById("adminFlagSelect");
 
-    DATA.flag = flagSelect.value;
+  if (seaFlag) {
+    seaFlag.classList.remove(
+      "bs-flag-green",
+      "bs-flag-yellow",
+      "bs-flag-red",
+      "bs-flag-black"
+    );
 
-    renderBeachFlag();
+    seaFlag.classList.add(`bs-flag-${flagData.value}`);
+  }
 
-    if(saveButton){
-        saveButton.disabled = true;
-        saveButton.textContent = "جاري الحفظ...";
-    }
+  if (flagTitle) {
+    flagTitle.textContent = flagData.title;
+  }
 
-    if(saveMessage){
-        saveMessage.textContent = "";
-    }
+  if (flagDescription) {
+    flagDescription.textContent = flagData.description;
+  }
 
-    try{
+  if (publicFlagBadge) {
+    publicFlagBadge.textContent = flagData.badge;
+    publicFlagBadge.className =
+      `bs-flag-badge bs-flag-badge-${flagData.value}`;
+  }
 
-        await saveSharedSystem();
-
-        if(saveMessage){
-            saveMessage.textContent = "✅ تم تحديث علم الشاطئ";
-        }
-
-    }catch(error){
-
-        console.error("Flag save error:", error);
-
-        if(saveMessage){
-            saveMessage.textContent = "❌ حدث خطأ أثناء الحفظ";
-        }
-
-    }finally{
-
-        if(saveButton){
-            saveButton.disabled = false;
-            saveButton.textContent = "حفظ حالة العلم";
-        }
-    }
+  if (adminFlagSelect) {
+    adminFlagSelect.value = flagData.value;
+  }
 }
 
 
-function bindBeachFlagControls(){
+async function saveFlag() {
+  const select = document.getElementById("adminFlagSelect");
+  const button = document.getElementById("saveFlagBtn");
+  const message = document.getElementById("flagSaveMessage");
 
-    const saveButton = document.getElementById("saveFlagButton");
+  if (!select) {
+    console.error("adminFlagSelect غير موجود");
+    return;
+  }
 
-    if(saveButton && !saveButton.dataset.bound){
+  const selectedFlag = select.value;
+  const flagData = getFlagData(selectedFlag);
 
-        saveButton.dataset.bound = "true";
+  DATA.flag = flagData.value;
 
-        saveButton.addEventListener("click", saveFlag);
+  if (button) {
+    button.disabled = true;
+    button.textContent = "جارٍ الحفظ...";
+  }
+
+  if (message) {
+    message.textContent = "";
+  }
+
+  try {
+    if (typeof saveSharedSystem === "function") {
+      await saveSharedSystem();
+    } else {
+      localStorage.setItem("blueSentinelData", JSON.stringify(DATA));
     }
 
     renderBeachFlag();
+
+    if (message) {
+      message.textContent = "✅ تم حفظ وتحديث حالة العلم بنجاح.";
+    }
+
+  } catch (error) {
+    console.error("Flag save error:", error);
+
+    if (message) {
+      message.textContent = "❌ حدث خطأ أثناء حفظ حالة العلم.";
+    }
+
+  } finally {
+    if (button) {
+      button.disabled = false;
+      button.textContent = "حفظ حالة العلم";
+    }
+  }
+}
+
+
+function bindBeachFlagControls() {
+  const button = document.getElementById("saveFlagBtn");
+
+  if (!button || button.dataset.bound === "true") {
+    return;
+  }
+
+  button.dataset.bound = "true";
+
+  button.addEventListener("click", function () {
+    saveFlag();
+  });
 }
 })();
