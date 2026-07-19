@@ -16,7 +16,18 @@
 <section id="dash" class="page active"><div class="grid cols"><div class="card"><h2>توصية التشغيل</h2><p>توزيع طبيعي مع منع النزول تحت المارينا ومتابعة نقاط الحافة.</p><div id="pointDetails" class="card"><h3>تفاصيل النقطة</h3><p class="small">اضغط على نقطة في الخريطة.</p></div></div><div class="card map-card"><h3>خريطة التشغيل</h3><div class="beach-map map-3d" id="adminMap"></div></div></div><div class="card" style="margin-top:16px"><h2>توزيع النقاط</h2><table class="table"><thead><tr><th>#</th><th>النقطة</th><th>الحالة</th><th>المنقذ</th><th>التعليمات</th></tr></thead><tbody id="roster"></tbody>
 </table>
 </div>
+<div class="card">
+    <h3>🚩 Beach Flag</h3>
 
+    <select id="flagSelect">
+        <option value="green">🟢 Green Flag</option>
+        <option value="yellow">🟡 Yellow Flag</option>
+        <option value="red">🔴 Red Flag</option>
+        <option value="black">⚫ Black Flag</option>
+    </select>
+
+    <button onclick="saveFlag()">Save Flag</button>
+</div>
 <div class="card" style="margin-top:16px">
 
   <h2>💬 مقترحات وملاحظات الزوار</h2>
