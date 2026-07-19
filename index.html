@@ -284,15 +284,30 @@
       <p>ممنوع النزول أو السباحة أسفل المارينا نهائيًا.</p>
     </div>
   </section>
-    <section class="forecast-section">
+    <section class="weekly-forecast-section">
+  <div class="section-heading">
+    <span class="section-kicker">
+      توقعات استرشادية
+    </span>
 
-    <div class="forecast-header">
-        <h2>🌊 توقعات البحر 5 أيام</h2>
-        <p>اضغط على أي يوم لعرض التفاصيل.</p>
-    </div>
+    <h2>
+      توقعات البحر خلال 5 أيام
+    </h2>
 
-    <div id="forecastCards" class="forecast-cards">
-    </div>
+    <p>
+      قد تتغير حالة البحر حسب التحديثات وتعليمات فريق الإنقاذ.
+    </p>
+  </div>
+
+  <div
+    id="forecastCards"
+    class="forecast-cards"
+  ></div>
+
+  <div
+    id="forecastUpdated"
+    class="forecast-updated"
+  ></div>
 
 </section>
 
@@ -397,5 +412,16 @@ document.addEventListener("DOMContentLoaded", function () {
     ADVOXCREW.SITE
   </a>
 </footer>
+  <div
+  id="forecastModal"
+  class="forecast-modal"
+  onclick="closeForecastModal()"
+>
+  <div
+    id="forecastModalContent"
+    class="forecast-modal-content"
+    onclick="event.stopPropagation()"
+  ></div>
+</div>
 </body>
 </html>
