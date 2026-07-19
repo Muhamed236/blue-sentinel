@@ -212,26 +212,7 @@ function renderPublic(){
   bindGuestFeedback();
   startPublicHeroCarousel();
   startSponsorSlider();
-  const flag = document.getElementById("seaFlag");
-const title = document.getElementById("flagTitle");
-
-if(flag){
-
-    flag.className = "flag " + DATA.flag;
-
-    const names = {
-
-        green:"SAFE TO SWIM",
-
-        yellow:"SWIM WITH CAUTION",
-
-        red:"NO SWIMMING",
-
-        black:"BEACH CLOSED"
-
-    };
-
-    title.textContent = names[DATA.flag];
+  renderBeachFlag();
 }
   function startSponsorSlider(){
 
