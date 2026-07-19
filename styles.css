@@ -606,3 +606,47 @@
   object-fit:cover;
   display:block;
 }
+.flag-section{
+    text-align:center;
+    padding:30px 20px;
+}
+
+.flag-pole{
+    position:relative;
+    width:5px;
+    height:140px;
+    margin:20px auto;
+    background:#666;
+}
+
+.flag{
+    position:absolute;
+    left:5px;
+    top:10px;
+    width:90px;
+    height:55px;
+    border-radius:0 6px 6px 0;
+    transform-origin:left center;
+    animation:wave 2s infinite ease-in-out;
+}
+
+.flag.green{background:#1db954;}
+.flag.yellow{background:#f7c600;}
+.flag.red{background:#e53935;}
+.flag.black{background:#222;}
+
+@keyframes wave{
+
+0%{
+transform:perspective(250px) rotateY(0deg);
+}
+
+50%{
+transform:perspective(250px) rotateY(-20deg);
+}
+
+100%{
+transform:perspective(250px) rotateY(0deg);
+}
+
+}
