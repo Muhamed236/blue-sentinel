@@ -355,13 +355,11 @@ function renderForecast() {
   container.innerHTML = WEEK_FORECAST.map(
     (item, index) => {
       const flagEmoji =
-        item.flagEmoji ||
-        (
-          item.flag === "red"
-            ? "🔴"
-            : item.flag === "yellow"
-              ? "🟡"
-              : "🟢"
+  item.flag === "red"
+    ? "🚩"
+    : item.flag === "yellow"
+      ? "🚩"
+      : "🚩";
         );
 
       return `
@@ -375,9 +373,11 @@ function renderForecast() {
               ${item.day || item.date}
             </span>
 
-            <span class="forecast-flag">
-              ${flagEmoji}
-            </span>
+            <span
+  class="forecast-flag forecast-flag-${item.flag || "green"}"
+>
+  ${flagEmoji}
+</span>
           </div>
 
           <div class="forecast-status">
@@ -389,15 +389,18 @@ function renderForecast() {
           </div>
 
           <div class="forecast-details">
-            <span>
-              💨 ${item.windSpeed ?? "--"} كم/س
-            </span>
+  <span>
+    💨 سرعة الرياح: ${item.windSpeed ?? "--"} كم/س
+  </span>
 
-            <span>
-              🌡️ ${item.temperature ?? "--"}°
-            </span>
-          </div>
+  <span>
+    🌡️ الحرارة: ${item.temperature ?? "--"}°
+  </span>
 
+  <span>
+    ⏱️ فترة الموج: ${item.wavePeriod ?? "--"} ث
+  </span>
+</div>
           <div class="forecast-open">
             عرض التفاصيل
           </div>
