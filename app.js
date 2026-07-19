@@ -196,42 +196,294 @@ async function runAI(publish=false){
     if(box) box.innerHTML='<p class="small">تعذر تحديث حالة البحر الآن.</p>';
   }
 }
-function renderPublic(){
+const FORECAST_SAMPLE = [
+  {
+    day: "الأحد",
+    flag: "🟢",
+    status: "آمن",
+    wave: "0.4 m",
+    wind: "11 km/h",
+    temp: "31°",
+    uv: "8"
+  },
+  {
+    day: "الإثنين",
+    flag: "🟡",
+    status: "حذر",
+    wave: "0.8 m",
+    wind: "18 km/h",
+    temp: "30°",
+    uv: "9"
+  },
+  {
+    day: "الثلاثاء",
+    flag: "🔴",
+    status: "خطر",
+    wave: "1.5 m",
+    wind: "28 km/h",
+    temp: "30°",
+    uv: "10"
+  },
+  {
+    day: "الأربعاء",
+    flag: "🟢",
+    status: "آمن",
+    wave: "0.5 m",
+    wind: "10 km/h",
+    temp: "29°",
+    uv: "8"
+  },
+  {
+    day: "الخميس",
+    flag: "🟢",
+    status: "آمن",
+    wave: "0.4 m",
+    wind: "9 km/h",
+    temp: "29°",
+    uv: "7"
+  }
+];
+
+
+function renderPublic() {
   menu();
-  $('#shiftText')&&($('#shiftText').textContent='Shift '+DATA.shift);
-  $('#wUpdate')&&($('#wUpdate').textContent=DATA.weather.updated);
-  $('#wWind')&&($('#wWind').textContent='km/h '+DATA.weather.windSpeed);
-  $('#wWave')&&($('#wWave').textContent='m '+DATA.weather.waveHeight);
-  $('#wRisk')&&($('#wRisk').textContent=DATA.weather.risk+'%');
-  $('#statusPill')&&($('#statusPill').textContent=DATA.weather.status);
-  $('#statusCard') && ($('#statusCard').textContent = DATA.weather.status);
-  const n=$('#publicNews');
-  if(n){n.innerHTML=(DATA.publicNews||[]).map(x=>`<div class="news-item ${String(x.type||'').includes('تحذير')?'warn':''}"><b>${safeText(x.type)}</b>${safeText(x.text)}</div>`).join('');}
-  map($('#publicMap'),{public:true});
-  const ai=$('#aiPublic'); if(ai) ai.innerHTML=aiHtml();
+
+  const shiftText = $("#shiftText");
+  const wUpdate = $("#wUpdate");
+  const wWind = $("#wWind");
+  const wWave = $("#wWave");
+  const wRisk = $("#wRisk");
+  const statusPill = $("#statusPill");
+  const statusCard = $("#statusCard");
+
+  if (shiftText) {
+    shiftText.textContent = "Shift " + DATA.shift;
+  }
+
+  if (wUpdate) {
+    wUpdate.textContent = DATA.weather.updated;
+  }
+
+  if (wWind) {
+    wWind.textContent = DATA.weather.windSpeed + " km/h";
+  }
+
+  if (wWave) {
+    wWave.textContent = DATA.weather.waveHeight + " m";
+  }
+
+  if (wRisk) {
+    wRisk.textContent = DATA.weather.risk + "%";
+  }
+
+  if (statusPill) {
+    statusPill.textContent = DATA.weather.status;
+  }
+
+  if (statusCard) {
+    statusCard.textContent = DATA.weather.status;
+  }
+
+
+  const newsContainer = $("#publicNews");
+
+  if (newsContainer) {
+    newsContainer.innerHTML = (DATA.publicNews || [])
+      .map(item => {
+        const warningClass = String(item.type || "").includes("تحذير")
+          ? "warn"
+          : "";
+
+        return `
+          <div class="news-item ${warningClass}">
+            <b>${safeText(item.type)}</b>
+            ${safeText(item.text)}
+          </div>
+        `;
+      })
+      .join("");
+  }
+
+
+  map($("#publicMap"), { public: true });
+
+  const aiContainer = $("#aiPublic");
+
+  if (aiContainer) {
+    aiContainer.innerHTML = aiHtml();
+  }
+
+
   bindGuestFeedback();
   startPublicHeroCarousel();
   startSponsorSlider();
   renderBeachFlag();
+  renderForecast();
 }
-  function startSponsorSlider(){
 
+
+function renderForecast() {
+  const wrap = document.getElementById("forecastCards");
+
+  if (!wrap) return;
+
+  wrap.innerHTML = "";
+
+  FORECAST_SAMPLE.forEach(item => {
+    const card = document.createElement("div");
+
+    card.className = "forecast-card";
+
+    card.innerHTML = `
+      <h3>${item.day}</h3>
+
+      <div class="forecast-flag">
+        ${item.flag}
+      </div>
+
+      <strong class="forecast-status">
+        ${item.status}
+      </strong>
+
+      <div class="forecast-item">
+        🌊 ${item.wave}
+      </div>
+
+      <div class="forecast-item">
+        💨 ${item.wind}
+      </div>
+
+      <div class="forecast-item">
+        🌡️ ${item.temp}
+      </div>
+    `;
+
+    card.addEventListener("click", function () {
+      showForecast(item);
+    });
+
+    wrap.appendChild(card);
+  });
+
+  bindForecastModal();
+}
+
+
+function showForecast(item) {
+  const modal = document.getElementById("forecastModal");
+  const dayTitle = document.getElementById("forecastDay");
+  const details = document.getElementById("forecastDetails");
+
+  if (!modal || !dayTitle || !details) return;
+
+  dayTitle.textContent = item.day;
+
+  details.innerHTML = `
+    <h3>${item.flag} ${item.status}</h3>
+
+    <p>
+      🌊 ارتفاع الموج:
+      <strong>${item.wave}</strong>
+    </p>
+
+    <p>
+      💨 سرعة الرياح:
+      <strong>${item.wind}</strong>
+    </p>
+
+    <p>
+      🌡️ درجة الحرارة:
+      <strong>${item.temp}</strong>
+    </p>
+
+    <p>
+      ☀️ مؤشر الأشعة فوق البنفسجية:
+      <strong>${item.uv}</strong>
+    </p>
+
+    <div class="forecast-recommendation">
+      ${getForecastRecommendation(item.status)}
+    </div>
+  `;
+
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+
+function getForecastRecommendation(status) {
+  if (status === "خطر") {
+    return `
+      <strong>🚫 توصية السلامة</strong>
+      <p>غير مناسب للسباحة، ويجب الالتزام بتعليمات فريق الإنقاذ.</p>
+    `;
+  }
+
+  if (status === "حذر") {
+    return `
+      <strong>⚠️ توصية السلامة</strong>
+      <p>السباحة بحذر مع مراقبة الأطفال والالتزام بالمناطق المحددة.</p>
+    `;
+  }
+
+  return `
+    <strong>✅ توصية السلامة</strong>
+    <p>حالة البحر مناسبة مع الالتزام بتعليمات فريق الإنقاذ.</p>
+  `;
+}
+
+
+function closeForecastModal() {
+  const modal = document.getElementById("forecastModal");
+
+  if (!modal) return;
+
+  modal.style.display = "none";
+  document.body.style.overflow = "";
+}
+
+
+function bindForecastModal() {
+  const modal = document.getElementById("forecastModal");
+  const closeButton = document.getElementById("forecastClose");
+
+  if (!modal || modal.dataset.bound === "true") return;
+
+  modal.dataset.bound = "true";
+
+  if (closeButton) {
+    closeButton.addEventListener("click", closeForecastModal);
+  }
+
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      closeForecastModal();
+    }
+  });
+
+  document.addEventListener("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeForecastModal();
+    }
+  });
+}
+  function startSponsorSlider() {
   const track = document.querySelector(".sponsor-track");
-  if(!track) return;
 
-  const slides = track.querySelectorAll("img");
-  if(slides.length <= 1) return;
+  if (!track) return;
+
+  const slides = track.children;
+
+  if (slides.length <= 1) return;
 
   let current = 0;
 
-  setInterval(()=>{
-
+  setInterval(() => {
     current = (current + 1) % slides.length;
 
     track.style.transform =
       `translateX(${current * 100}%)`;
-
-  },2000);
+  }, 2000);
 }
 function renderAdmin(){
   menu(); pageNav();
