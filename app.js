@@ -433,13 +433,136 @@ window.BS={
     },2000);
 
 }
-function saveFlag(){
+const BEACH_FLAG_DATA = {
+    green: {
+        title: "مسموح بالسباحة",
+        description: "حالة البحر مناسبة مع الالتزام بتعليمات فريق الإنقاذ.",
+        badge: "آمن",
+        badgeColor: "#16a765"
+    },
 
-    DATA.flag = document.getElementById("flagSelect").value;
+    yellow: {
+        title: "السباحة بحذر",
+        description: "يرجى توخي الحذر وعدم الابتعاد عن مناطق تواجد المنقذين.",
+        badge: "حذر",
+        badgeColor: "#d7a800"
+    },
 
-    saveSharedSystem();
+    red: {
+        title: "ممنوع السباحة",
+        description: "حالة البحر غير آمنة. يرجى عدم النزول إلى المياه.",
+        badge: "خطر",
+        badgeColor: "#d8323c"
+    },
 
-    renderPublic();
+    black: {
+        title: "الشاطئ مغلق",
+        description: "خطر شديد. يمنع دخول المياه حتى إشعار آخر.",
+        badge: "مغلق",
+        badgeColor: "#171717"
+    }
+};
 
+
+function renderBeachFlag(){
+
+    const flagValue = DATA.flag || "green";
+    const flagData = BEACH_FLAG_DATA[flagValue] || BEACH_FLAG_DATA.green;
+
+    const seaFlag = document.getElementById("seaFlag");
+    const flagTitle = document.getElementById("flagTitle");
+    const flagDescription = document.getElementById("flagDescription");
+    const publicFlagBadge = document.getElementById("publicFlagBadge");
+    const flagSelect = document.getElementById("flagSelect");
+
+    if(seaFlag){
+        seaFlag.className = `bs-sea-flag bs-flag-${flagValue}`;
+
+        // إعادة تشغيل الأنيميشن عند تغيير اللون
+        seaFlag.style.animation = "none";
+        void seaFlag.offsetWidth;
+        seaFlag.style.animation = "";
+    }
+
+    if(flagTitle){
+        flagTitle.textContent = flagData.title;
+    }
+
+    if(flagDescription){
+        flagDescription.textContent = flagData.description;
+    }
+
+    if(publicFlagBadge){
+        publicFlagBadge.textContent = flagData.badge;
+        publicFlagBadge.style.background = flagData.badgeColor;
+    }
+
+    if(flagSelect){
+        flagSelect.value = flagValue;
+    }
+}
+
+
+async function saveFlag(){
+
+    const flagSelect = document.getElementById("flagSelect");
+    const saveMessage = document.getElementById("flagSaveMessage");
+    const saveButton = document.getElementById("saveFlagButton");
+
+    if(!flagSelect){
+        return;
+    }
+
+    DATA.flag = flagSelect.value;
+
+    renderBeachFlag();
+
+    if(saveButton){
+        saveButton.disabled = true;
+        saveButton.textContent = "جاري الحفظ...";
+    }
+
+    if(saveMessage){
+        saveMessage.textContent = "";
+    }
+
+    try{
+
+        await saveSharedSystem();
+
+        if(saveMessage){
+            saveMessage.textContent = "✅ تم تحديث علم الشاطئ";
+        }
+
+    }catch(error){
+
+        console.error("Flag save error:", error);
+
+        if(saveMessage){
+            saveMessage.textContent = "❌ حدث خطأ أثناء الحفظ";
+        }
+
+    }finally{
+
+        if(saveButton){
+            saveButton.disabled = false;
+            saveButton.textContent = "حفظ حالة العلم";
+        }
+    }
+}
+
+
+function bindBeachFlagControls(){
+
+    const saveButton = document.getElementById("saveFlagButton");
+
+    if(saveButton && !saveButton.dataset.bound){
+
+        saveButton.dataset.bound = "true";
+
+        saveButton.addEventListener("click", saveFlag);
+    }
+
+    renderBeachFlag();
 }
 })();
