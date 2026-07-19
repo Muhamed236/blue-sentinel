@@ -196,53 +196,10 @@ async function runAI(publish=false){
     if(box) box.innerHTML='<p class="small">تعذر تحديث حالة البحر الآن.</p>';
   }
 }
-const FORECAST_SAMPLE = [
-  {
-    day: "الأحد",
-    flag: "🟢",
-    status: "آمن",
-    wave: "0.4 m",
-    wind: "11 km/h",
-    temp: "31°",
-    uv: "8"
-  },
-  {
-    day: "الإثنين",
-    flag: "🟡",
-    status: "حذر",
-    wave: "0.8 m",
-    wind: "18 km/h",
-    temp: "30°",
-    uv: "9"
-  },
-  {
-    day: "الثلاثاء",
-    flag: "🔴",
-    status: "خطر",
-    wave: "1.5 m",
-    wind: "28 km/h",
-    temp: "30°",
-    uv: "10"
-  },
-  {
-    day: "الأربعاء",
-    flag: "🟢",
-    status: "آمن",
-    wave: "0.5 m",
-    wind: "10 km/h",
-    temp: "29°",
-    uv: "8"
-  },
-  {
-    day: "الخميس",
-    flag: "🟢",
-    status: "آمن",
-    wave: "0.4 m",
-    wind: "9 km/h",
-    temp: "29°",
-    uv: "7"
-  }
-];
+const FORECAST_API =
+  "https://blue-sentinel-ai.moozasalah138.workers.dev/report";
+
+let WEEK_FORECAST = [];
 
 
 function renderPublic() {
@@ -318,99 +275,244 @@ function renderPublic() {
   startPublicHeroCarousel();
   startSponsorSlider();
   renderBeachFlag();
-  renderForecast();
+  loadWeeklyForecast();
 }
 
+async function loadWeeklyForecast() {
+  const forecastContainer =
+    document.getElementById("forecastCards");
 
+  try {
+    if (forecastContainer) {
+      forecastContainer.innerHTML = `
+        <div class="forecast-loading">
+          جاري تحميل توقعات البحر...
+        </div>
+      `;
+    }
+
+    const response = await fetch(
+      `${FORECAST_API}?t=${Date.now()}`,
+      {
+        cache: "no-store"
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `Forecast request failed: ${response.status}`
+      );
+    }
+
+    const data = await response.json();
+
+    WEEK_FORECAST = Array.isArray(data.forecast)
+      ? data.forecast
+      : [];
+
+    renderForecast();
+
+    const updatedElement =
+      document.getElementById("forecastUpdated");
+
+    if (updatedElement) {
+      updatedElement.textContent =
+        data.updated
+          ? `آخر تحديث: ${data.updated}`
+          : "";
+    }
+
+  } catch (error) {
+    console.error(
+      "Weekly forecast error:",
+      error
+    );
+
+    if (forecastContainer) {
+      forecastContainer.innerHTML = `
+        <div class="forecast-error">
+          تعذر تحميل توقعات البحر حاليًا.
+        </div>
+      `;
+    }
+  }
+}
 function renderForecast() {
-  const wrap = document.getElementById("forecastCards");
+  const container =
+    document.getElementById("forecastCards");
 
-  if (!wrap) return;
+  if (!container) return;
 
-  wrap.innerHTML = "";
-
-  FORECAST_SAMPLE.forEach(item => {
-    const card = document.createElement("div");
-
-    card.className = "forecast-card";
-
-    card.innerHTML = `
-      <h3>${item.day}</h3>
-
-      <div class="forecast-flag">
-        ${item.flag}
-      </div>
-
-      <strong class="forecast-status">
-        ${item.status}
-      </strong>
-
-      <div class="forecast-item">
-        🌊 ${item.wave}
-      </div>
-
-      <div class="forecast-item">
-        💨 ${item.wind}
-      </div>
-
-      <div class="forecast-item">
-        🌡️ ${item.temp}
+  if (!WEEK_FORECAST.length) {
+    container.innerHTML = `
+      <div class="forecast-empty">
+        لا توجد توقعات متاحة حاليًا.
       </div>
     `;
+    return;
+  }
 
-    card.addEventListener("click", function () {
-      showForecast(item);
-    });
+  container.innerHTML = WEEK_FORECAST.map(
+    (item, index) => {
+      const flagEmoji =
+        item.flagEmoji ||
+        (
+          item.flag === "red"
+            ? "🔴"
+            : item.flag === "yellow"
+              ? "🟡"
+              : "🟢"
+        );
 
-    wrap.appendChild(card);
-  });
+      return `
+        <button
+          type="button"
+          class="forecast-card forecast-${item.flag || "green"}"
+          onclick="showForecast(${index})"
+        >
+          <div class="forecast-card-head">
+            <span class="forecast-day">
+              ${item.day || item.date}
+            </span>
 
-  bindForecastModal();
+            <span class="forecast-flag">
+              ${flagEmoji}
+            </span>
+          </div>
+
+          <div class="forecast-status">
+            ${item.status || "غير محدد"}
+          </div>
+
+          <div class="forecast-main-value">
+            🌊 ${item.waveHeight ?? "--"} م
+          </div>
+
+          <div class="forecast-details">
+            <span>
+              💨 ${item.windSpeed ?? "--"} كم/س
+            </span>
+
+            <span>
+              🌡️ ${item.temperature ?? "--"}°
+            </span>
+          </div>
+
+          <div class="forecast-open">
+            عرض التفاصيل
+          </div>
+        </button>
+      `;
+    }
+  ).join("");
 }
 
+function showForecast(index) {
+  const item = WEEK_FORECAST[index];
 
-function showForecast(item) {
-  const modal = document.getElementById("forecastModal");
-  const dayTitle = document.getElementById("forecastDay");
-  const details = document.getElementById("forecastDetails");
+  if (!item) return;
 
-  if (!modal || !dayTitle || !details) return;
+  const modal =
+    document.getElementById("forecastModal");
 
-  dayTitle.textContent = item.day;
+  const modalContent =
+    document.getElementById("forecastModalContent");
 
-  details.innerHTML = `
-    <h3>${item.flag} ${item.status}</h3>
+  if (!modal || !modalContent) return;
 
-    <p>
-      🌊 ارتفاع الموج:
-      <strong>${item.wave}</strong>
-    </p>
+  const flagEmoji =
+    item.flagEmoji ||
+    (
+      item.flag === "red"
+        ? "🔴"
+        : item.flag === "yellow"
+          ? "🟡"
+          : "🟢"
+    );
 
-    <p>
-      💨 سرعة الرياح:
-      <strong>${item.wind}</strong>
-    </p>
+  modalContent.innerHTML = `
+    <button
+      type="button"
+      class="forecast-modal-close"
+      onclick="closeForecastModal()"
+      aria-label="إغلاق"
+    >
+      ×
+    </button>
 
-    <p>
-      🌡️ درجة الحرارة:
-      <strong>${item.temp}</strong>
-    </p>
+    <div class="forecast-modal-flag">
+      ${flagEmoji}
+    </div>
 
-    <p>
-      ☀️ مؤشر الأشعة فوق البنفسجية:
-      <strong>${item.uv}</strong>
-    </p>
+    <h3>
+      ${item.day || item.date}
+    </h3>
+
+    <div class="forecast-modal-status">
+      حالة البحر: ${item.status || "غير محدد"}
+    </div>
+
+    <div class="forecast-modal-grid">
+      <div>
+        <span>ارتفاع الموج</span>
+        <strong>
+          ${item.waveHeight ?? "--"} متر
+        </strong>
+      </div>
+
+      <div>
+        <span>فترة الموج</span>
+        <strong>
+          ${item.wavePeriod ?? "--"} ثانية
+        </strong>
+      </div>
+
+      <div>
+        <span>سرعة الرياح</span>
+        <strong>
+          ${item.windSpeed ?? "--"} كم/س
+        </strong>
+      </div>
+
+      <div>
+        <span>درجة الحرارة</span>
+        <strong>
+          ${item.temperature ?? "--"}°
+        </strong>
+      </div>
+
+      <div>
+        <span>الأشعة فوق البنفسجية</span>
+        <strong>
+          ${item.uvIndex ?? "--"}
+        </strong>
+      </div>
+
+      <div>
+        <span>مدى الرؤية</span>
+        <strong>
+          ${item.visibility ?? "--"} كم
+        </strong>
+      </div>
+    </div>
 
     <div class="forecast-recommendation">
-      ${getForecastRecommendation(item.status)}
+      <strong>التوصية:</strong>
+
+      <p>
+        ${item.recommendation || "يرجى اتباع تعليمات فريق الإنقاذ."}
+      </p>
     </div>
+
+    <p class="forecast-disclaimer">
+      التوقعات استرشادية وقد تتغير حسب حالة البحر
+      وتعليمات فريق الإنقاذ.
+    </p>
   `;
 
-  modal.style.display = "flex";
-  document.body.style.overflow = "hidden";
+  modal.classList.add("show");
+  document.body.classList.add("modal-open");
 }
-
-
 function getForecastRecommendation(status) {
   if (status === "خطر") {
     return `
@@ -434,12 +536,13 @@ function getForecastRecommendation(status) {
 
 
 function closeForecastModal() {
-  const modal = document.getElementById("forecastModal");
+  const modal =
+    document.getElementById("forecastModal");
 
   if (!modal) return;
 
-  modal.style.display = "none";
-  document.body.style.overflow = "";
+  modal.classList.remove("show");
+  document.body.classList.remove("modal-open");
 }
 
 
