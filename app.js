@@ -243,6 +243,7 @@ function renderAdmin(){
   bindForms();
   bindGeminiChat();
   const ai=$('#aiResult'); if(ai) ai.innerHTML=aiHtml();
+  bindBeachFlagControls();
 }
 function showLogin(type){
   const root=$('#loginRoot'); if(!root)return;
