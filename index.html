@@ -58,8 +58,19 @@
       <p>(الرجاء انتظار ثواني للتحديث) نظام ذكي لمتابعة حالة البحر وتحذيرات السلامة داخل الشاطئ</p>
 
       <div class="hero-status-row">
-        <span class="hero-status" id="statusPill">البحر مفتوح بحذر</span>
-        <span class="hero-shift" id="shiftText">Shift 09:00 - 19:00</span>
+<div class="card">
+    <h3>🚩 Beach Flag</h3>
+
+    <select id="flagSelect">
+        <option value="green">🟢 Green Flag</option>
+        <option value="yellow">🟡 Yellow Flag</option>
+        <option value="red">🔴 Red Flag</option>
+        <option value="black">⚫ Black Flag</option>
+    </select>
+
+    <button onclick="saveFlag()">Save Flag</button>
+      </div>
+    <span class="hero-shift" id="shiftText">Shift 09:00 - 19:00</span>
       </div>
 
       <div class="hero-update">
