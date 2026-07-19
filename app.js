@@ -338,8 +338,7 @@ async function loadWeeklyForecast() {
   }
 }
 function renderForecast() {
-  const container =
-    document.getElementById("forecastCards");
+  const container = document.getElementById("forecastCards");
 
   if (!container) return;
 
@@ -352,62 +351,60 @@ function renderForecast() {
     return;
   }
 
-  container.innerHTML = WEEK_FORECAST.map(
-    (item, index) => {
-      const flagEmoji =
-  item.flag === "red"
-    ? "🚩"
-    : item.flag === "yellow"
-      ? "🚩"
-      : "🚩";
-        );
+  container.innerHTML = WEEK_FORECAST.map((item, index) => {
+    const flagEmoji =
+      item.flag === "red"
+        ? "🚩"
+        : item.flag === "yellow"
+          ? "🚩"
+          : "🚩";
 
-      return `
-        <button
-          type="button"
-          class="forecast-card forecast-${item.flag || "green"}"
-          onclick="showForecast(${index})"
-        >
-          <div class="forecast-card-head">
-            <span class="forecast-day">
-              ${item.day || item.date}
-            </span>
+    return `
+      <button
+        type="button"
+        class="forecast-card forecast-${item.flag || "green"}"
+        onclick="showForecast(${index})"
+      >
+        <div class="forecast-card-head">
+          <span class="forecast-day">
+            ${safeText(item.day || item.date)}
+          </span>
 
-            <span
-  class="forecast-flag forecast-flag-${item.flag || "green"}"
->
-  ${flagEmoji}
-</span>
-          </div>
+          <span
+            class="forecast-flag forecast-flag-${item.flag || "green"}"
+          >
+            ${flagEmoji}
+          </span>
+        </div>
 
-          <div class="forecast-status">
-            ${item.status || "غير محدد"}
-          </div>
+        <div class="forecast-status">
+          ${safeText(item.status || "غير محدد")}
+        </div>
 
-          <div class="forecast-main-value">
-            🌊 ${item.waveHeight ?? "--"} م
-          </div>
+        <div class="forecast-main-value">
+          🌊 ${item.waveHeight ?? "--"} متر
+        </div>
 
-          <div class="forecast-details">
-  <span>
-    💨 سرعة الرياح: ${item.windSpeed ?? "--"} كم/س
-  </span>
+        <div class="forecast-details">
+          <span>
+            💨 سرعة الرياح: ${item.windSpeed ?? "--"} كم/س
+          </span>
 
-  <span>
-    🌡️ الحرارة: ${item.temperature ?? "--"}°
-  </span>
+          <span>
+            🌡️ الحرارة: ${item.temperature ?? "--"}°
+          </span>
 
-  <span>
-    ⏱️ فترة الموج: ${item.wavePeriod ?? "--"} ث
-  </span>
-</div>
-          <div class="forecast-open">
-            عرض التفاصيل
-          </div>
-        </button>
-      `;
-    }
-  ).join("");
+          <span>
+            ⏱️ فترة الموج: ${item.wavePeriod ?? "--"} ثانية
+          </span>
+        </div>
+
+        <div class="forecast-open">
+          عرض التفاصيل
+        </div>
+      </button>
+    `;
+  }).join("");
 }
 
 function showForecast(index) {
