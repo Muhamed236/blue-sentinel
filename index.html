@@ -1,99 +1,189 @@
 <!doctype html>
 <html lang="ar" dir="rtl">
-  <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-TKE1374BKH"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-TKE1374BKH');
-</script>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+
   <title>Blue Sentinel | واجهة العملاء</title>
+
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-TKE1374BKH"></script>
+
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag("js", new Date());
+    gtag("config", "G-TKE1374BKH");
+  </script>
 </head>
 
 <body class="public-body">
 
-<header class="topbar public-topbar">
-  <div class="brand">
-    <div class="logo">
-    <img src="assets/logo.png" alt="Blue Sentinel">
-</div>
-    <div>
-      <h1>Blue Sentinel</h1>
-      <p>Beach Safety System</p>
-    </div>
-  </div>
+  <header class="topbar public-topbar">
 
-  <button class="menu-btn" id="menuBtn">☰ القائمة</button>
-</header>
+    <div class="brand">
 
-<nav class="menu-pop" id="menuPop">
-  <a class="active" href="index.html">واجهة العملاء</a>
-  <a href="admin.html">دخول المشرف</a>
-  <a href="lifeguard.html">دخول المنقذ</a>
-</nav>
+      <div class="logo">
+        <img src="assets/logo.png" alt="Blue Sentinel">
+      </div>
 
-<main class="public-wrap">
+      <div>
+        <h1>Blue Sentinel</h1>
+        <p>Beach Safety System</p>
+      </div>
 
-  <section class="public-hero">
-<div class="public-hero-carousel">
-  <img src="assets/hero/hero1.jpg" class="public-hero-slide active" alt="">
-  <img src="assets/hero/hero2.jpeg" class="public-hero-slide" alt="">
-  <img src="assets/hero/hero3.jpeg" class="public-hero-slide" alt="">
-  <img src="assets/hero/hero4.jpeg" class="public-hero-slide" alt="">
-  <img src="assets/hero/hero5.jpeg" class="public-hero-slide" alt="">
-  <img src="assets/hero/hero6.jpeg" class="public-hero-slide" alt="">
-
-</div>
-
-  <div class="public-hero-overlay">
-<section class="bs-flag-section">
-    <div class="bs-flag-header">
-        <span>حالة علم الشاطئ</span>
-        <span id="publicFlagBadge" class="bs-flag-badge">آمن</span>
-    </div>
- </section>
-    <div class="bs-flag-scene">
-        <div class="bs-flag-pole">
-            <div class="bs-pole-top"></div>
-
-            <div id="seaFlag" class="bs-sea-flag bs-flag-green">
-                <span class="bs-flag-wave bs-wave-one"></span>
-                <span class="bs-flag-wave bs-wave-two"></span>
-                <span class="bs-flag-wave bs-wave-three"></span>
-            </div>
-
-            <div class="bs-pole-base"></div>
-        </div>
     </div>
 
-    <div class="bs-flag-info">
-        <h3 id="flagTitle">مسموح بالسباحة</h3>
-        <p id="flagDescription">
-            حالة البحر مناسبة مع الالتزام بتعليمات فريق الإنقاذ.
+    <button
+      class="menu-btn"
+      id="menuBtn"
+      type="button">
+      ☰ القائمة
+    </button>
+
+  </header>
+
+
+  <nav class="menu-pop" id="menuPop">
+
+    <a class="active" href="index.html">
+      واجهة العملاء
+    </a>
+
+    <a href="admin.html">
+      دخول المشرف
+    </a>
+
+    <a href="lifeguard.html">
+      دخول المنقذ
+    </a>
+
+  </nav>
+
+
+  <main class="public-wrap">
+
+    <!-- Hero Section -->
+    <section class="public-hero">
+
+      <div class="public-hero-carousel">
+
+        <img
+          src="assets/hero/hero1.jpg"
+          class="public-hero-slide active"
+          alt="فريق إنقاذ Blue Sentinel">
+
+        <img
+          src="assets/hero/hero2.jpeg"
+          class="public-hero-slide"
+          alt="شاطئ لافيستا">
+
+        <img
+          src="assets/hero/hero3.jpeg"
+          class="public-hero-slide"
+          alt="فريق الإنقاذ على الشاطئ">
+
+        <img
+          src="assets/hero/hero4.jpeg"
+          class="public-hero-slide"
+          alt="خدمات السلامة البحرية">
+
+        <img
+          src="assets/hero/hero5.jpeg"
+          class="public-hero-slide"
+          alt="متابعة حالة البحر">
+
+        <img
+          src="assets/hero/hero6.jpeg"
+          class="public-hero-slide"
+          alt="منقذو Blue Sentinel">
+
+      </div>
+
+
+      <div class="public-hero-overlay">
+
+        <h2>Lavista Bay</h2>
+
+        <p>
+          (الرجاء انتظار ثوانٍ للتحديث)
+          نظام ذكي لمتابعة حالة البحر وتحذيرات السلامة داخل الشاطئ
         </p>
-    </div>
 
-  </section>
-      <h2>Lavista Bay</h2>
-      <p>(الرجاء انتظار ثواني للتحديث) نظام ذكي لمتابعة حالة البحر وتحذيرات السلامة داخل الشاطئ</p>
+        <span class="hero-shift" id="shiftText">
+          Shift 09:00 - 19:00
+        </span>
 
-    <button onclick="saveFlag()">Save Flag</button>
-      </div>
-    <span class="hero-shift" id="shiftText">Shift 09:00 - 19:00</span>
+        <div class="hero-update">
+          آخر تحديث:
+          <strong id="wUpdate">09:00</strong>
+        </div>
+
       </div>
 
-      <div class="hero-update">
-        آخر تحديث: <strong id="wUpdate">09:00</strong>
+    </section>
+
+
+    <!-- Beach Flag Section -->
+    <section class="bs-flag-section">
+
+      <div class="bs-flag-header">
+
+        <span>حالة علم الشاطئ</span>
+
+        <span
+          id="publicFlagBadge"
+          class="bs-flag-badge">
+          آمن
+        </span>
+
       </div>
-    </div>
-  </section>
-  <section class="public-metrics">
+
+
+      <div class="bs-flag-scene">
+
+        <div class="bs-flag-pole">
+
+          <div class="bs-pole-top"></div>
+
+          <div
+            id="seaFlag"
+            class="bs-sea-flag bs-flag-green">
+
+            <span class="bs-flag-wave bs-wave-one"></span>
+            <span class="bs-flag-wave bs-wave-two"></span>
+            <span class="bs-flag-wave bs-wave-three"></span>
+
+          </div>
+
+          <div class="bs-pole-base"></div>
+
+        </div>
+
+      </div>
+
+
+      <div class="bs-flag-info">
+
+        <h3 id="flagTitle">
+          مسموح بالسباحة
+        </h3>
+
+        <p id="flagDescription">
+          حالة البحر مناسبة مع الالتزام بتعليمات فريق الإنقاذ.
+        </p>
+
+      </div>
+
+    </section>
+ <section class="public-metrics">
     <div class="public-metric-card">
       <span>حالة البحر</span>
       <strong id="statusCard">--</strong>
