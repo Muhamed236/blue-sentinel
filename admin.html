@@ -16,18 +16,7 @@
 <section id="dash" class="page active"><div class="grid cols"><div class="card"><h2>توصية التشغيل</h2><p>توزيع طبيعي مع منع النزول تحت المارينا ومتابعة نقاط الحافة.</p><div id="pointDetails" class="card"><h3>تفاصيل النقطة</h3><p class="small">اضغط على نقطة في الخريطة.</p></div></div><div class="card map-card"><h3>خريطة التشغيل</h3><div class="beach-map map-3d" id="adminMap"></div></div></div><div class="card" style="margin-top:16px"><h2>توزيع النقاط</h2><table class="table"><thead><tr><th>#</th><th>النقطة</th><th>الحالة</th><th>المنقذ</th><th>التعليمات</th></tr></thead><tbody id="roster"></tbody>
 </table>
 </div>
-<div class="card">
-    <h3>🚩 Beach Flag</h3>
 
-    <select id="flagSelect">
-        <option value="green">🟢 Green Flag</option>
-        <option value="yellow">🟡 Yellow Flag</option>
-        <option value="red">🔴 Red Flag</option>
-        <option value="black">⚫ Black Flag</option>
-    </select>
-
-    <button onclick="saveFlag()">Save Flag</button>
-</div>
 <div class="card" style="margin-top:16px">
 
   <h2>💬 مقترحات وملاحظات الزوار</h2>
@@ -49,6 +38,36 @@
   </table>
 
 </div>
+
+</section>
+  <section class="admin-panel flag-admin-panel">
+
+  <div class="section-head">
+    <div>
+      <h2>🚩 التحكم في علم الشاطئ</h2>
+      <p>اختر حالة العلم ثم اضغط حفظ.</p>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="adminFlagSelect">حالة العلم</label>
+
+    <select id="adminFlagSelect">
+      <option value="green">أخضر — آمن</option>
+      <option value="yellow">أصفر — حذر</option>
+      <option value="red">أحمر — خطر</option>
+      <option value="black">أسود — الشاطئ مغلق</option>
+    </select>
+  </div>
+
+  <button
+    type="button"
+    class="btn"
+    id="saveFlagBtn">
+    حفظ حالة العلم
+  </button>
+
+  <p id="flagSaveMessage" class="small"></p>
 
 </section>
 <section id="edit" class="page"><div class="grid cols"><div class="card"><h2>تعديل حالة البحر</h2><div class="form-grid"><div class="field"><label>آخر تحديث</label><input id="weatherTime" value="09:00"></div><div class="field"><label>ارتفاع الموج</label><input id="waveHeight" value="0.6"></div><div class="field"><label>سرعة الرياح</label><input id="windSpeed" value="18"></div><div class="field"><label>مؤشر الخطورة</label><input id="riskIndex" value="38"></div></div><div class="field"><label>حالة البحر</label><input id="seaStatus" value="البحر مفتوح بحذر"></div><button class="btn" id="saveWeather">حفظ حالة البحر</button></div><div class="card"><h2>تصدير / استرجاع</h2><button class="btn" id="exportData">تصدير data.json</button> <button class="btn secondary" id="exportCsv">تصدير تقرير CSV</button> <button class="btn danger" id="resetData">رجوع للداتا الأساسية</button><p class="small">أي تعديل بيتحفظ على نفس المتصفح باستخدام localStorage.</p></div></div><div class="card" style="margin-top:16px"><h2>تعديل المنقذين</h2><table class="table"><thead><tr><th>الاسم</th><th>الموبايل</th><th>المرتب</th></tr></thead><tbody id="guardsTable"></tbody></table></div><div class="card" style="margin-top:16px"><h2>تعديل النقاط والتعليمات</h2><table class="table"><thead><tr><th>#</th><th>النقطة</th><th>الحالة</th><th>المنقذ</th><th>التعليمات</th></tr></thead><tbody id="pointsEdit"></tbody></table></div></section>
