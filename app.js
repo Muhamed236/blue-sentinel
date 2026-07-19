@@ -948,4 +948,12 @@ function bindBeachFlagControls() {
     saveFlag();
   });
 }
+  setInterval(() => {
+  if (
+    document.getElementById("forecastCards")
+  ) {
+    loadWeeklyForecast();
+  }
+}, 60 * 60 * 1000);
+}  
 })();
