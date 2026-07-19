@@ -413,4 +413,13 @@ window.BS={
     },2000);
 
 }
+function saveFlag(){
+
+    DATA.flag = document.getElementById("flagSelect").value;
+
+    saveSharedSystem();
+
+    renderPublic();
+
+}
 })();
