@@ -496,6 +496,7 @@ function renderAdmin(){
   bindGeminiChat();
   const ai=$('#aiResult'); if(ai) ai.innerHTML=aiHtml();
   bindBeachFlagControls();
+  renderBeachFlag();
 }
 function showLogin(type){
   const root=$('#loginRoot'); if(!root)return;
