@@ -18,8 +18,8 @@ function normalizeData(data){
   d.aiReport=Object.assign({}, base.aiReport||{}, d.aiReport||{});
   d.supervisor=Object.assign({}, base.supervisor||{}, d.supervisor||{});
   d.publicNews=Array.isArray(d.publicNews)?d.publicNews:[];
-  d.lifeguards=Array.isArray(d.lifeguards)?d.lifeguards:[];
-  d.points=Array.isArray(d.points)?d.points:[];
+  d.lifeguards=Array.isArray(d.lifeguards)&&d.lifeguards.length?d.lifeguards:clone(base.lifeguards||[]);
+  d.points=Array.isArray(d.points)&&d.points.length?d.points:clone(base.points||[]);
   d.incidents=Array.isArray(d.incidents)?d.incidents:[];
   d.requests=Array.isArray(d.requests)?d.requests:[];
   d.suggestions=Array.isArray(d.suggestions)?d.suggestions:[];
@@ -58,8 +58,11 @@ async function loadSharedSystem(){
     const json = await res.json();
 
     if(json.status === 'success' && json.data && Object.keys(json.data).length){
-      DATA = json.data;
-      save();
+      isLoadingShared = true;
+      DATA = normalizeData(json.data);
+      saveLocal();
+      isLoadingShared = false;
+      sharedLoaded = true;
       return true;
     }
 
@@ -263,6 +266,15 @@ function renderPublic() {
 
 
 
+  const publicMap =
+    document.getElementById('publicMap') ||
+    document.getElementById('beachMap') ||
+    document.getElementById('map');
+
+  if (publicMap) {
+    map(publicMap, { public: true });
+  }
+
   bindGuestFeedback();
   startPublicHeroCarousel();
   startSponsorSlider();
@@ -272,6 +284,7 @@ function renderPublic() {
 
 async function loadWeeklyForecast() {
   const forecastContainer =
+    document.getElementById("forecastCards") ||
     document.getElementById("forecastGrid");
 
   try {
@@ -629,24 +642,6 @@ function bindForecastModal() {
       closeForecastModal();
     }
   });
-}
-  function startSponsorSlider() {
-  const track = document.querySelector(".sponsor-track");
-
-  if (!track) return;
-
-  const slides = track.children;
-
-  if (slides.length <= 1) return;
-
-  let current = 0;
-
-  setInterval(() => {
-    current = (current + 1) % slides.length;
-
-    track.style.transform =
-      `translateX(${current * 100}%)`;
-  }, 2000);
 }
 function renderAdmin(){
   menu(); pageNav();
@@ -1013,4 +1008,7 @@ setInterval(() => {
     loadWeeklyForecast();
   }
 }, 60 * 60 * 1000);  
+
+window.showForecast = showForecast;
+window.closeForecastModal = closeForecastModal;
 })();
