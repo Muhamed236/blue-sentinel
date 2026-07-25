@@ -262,14 +262,6 @@ function renderPublic() {
   }
 
 
-  map($("#publicMap"), { public: true });
-
-  const aiContainer = $("#aiPublic");
-
-  if (aiContainer) {
-    aiContainer.innerHTML = aiHtml();
-  }
-
 
   bindGuestFeedback();
   startPublicHeroCarousel();
