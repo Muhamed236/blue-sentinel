@@ -304,13 +304,14 @@ async function loadWeeklyForecast() {
       );
     }
 
-    const data = await response.json();
+   const data = await response.json();
 
-    WEEK_FORECAST = Array.isArray(data.forecast)
-      ? data.forecast
-      : [];
+WEEK_FORECAST = Array.isArray(data.forecast)
+  ? data.forecast
+  : [];
 
-    renderForecast();
+updatePublicDailyForecast(data);
+renderForecast();
 
     const updatedElement =
       document.getElementById("forecastUpdated");
@@ -336,6 +337,86 @@ async function loadWeeklyForecast() {
       `;
     }
   }
+}
+  function updatePublicDailyForecast(data) {
+  const today = data.todayForecast || data.forecast?.[0];
+
+  if (!today) return;
+
+  const waveHeight =
+    today.waveHeight ?? data.waveHeight ?? "--";
+
+  const windSpeed =
+    today.windSpeed ?? data.windSpeed ?? "--";
+
+  const riskScore =
+    today.risk ?? data.risk?.score ?? "--";
+
+  const status =
+    today.status ?? data.risk?.status ?? "غير محدد";
+
+  const updated =
+    data.updated || "غير محدد";
+
+  const wWave = document.getElementById("wWave");
+  const wWind = document.getElementById("wWind");
+  const wRisk = document.getElementById("wRisk");
+  const wUpdate = document.getElementById("wUpdate");
+  const statusPill = document.getElementById("statusPill");
+  const statusCard = document.getElementById("statusCard");
+
+  if (wWave) {
+    wWave.textContent = `${waveHeight} m`;
+  }
+
+  if (wWind) {
+    wWind.textContent = `${windSpeed} km/h`;
+  }
+
+  if (wRisk) {
+    wRisk.textContent = `${riskScore}%`;
+  }
+
+  if (wUpdate) {
+    wUpdate.textContent = updated;
+  }
+
+  if (statusPill) {
+    statusPill.textContent = status;
+    statusPill.classList.remove(
+      "safe",
+      "caution",
+      "danger"
+    );
+
+    statusPill.classList.add(
+      today.level === "high"
+        ? "danger"
+        : today.level === "medium"
+          ? "caution"
+          : "safe"
+    );
+  }
+
+  if (statusCard) {
+    statusCard.textContent = status;
+    statusCard.classList.remove(
+      "safe",
+      "caution",
+      "danger"
+    );
+
+    statusCard.classList.add(
+      today.level === "high"
+        ? "danger"
+        : today.level === "medium"
+          ? "caution"
+          : "safe"
+    );
+  }
+
+  updatePublicNewsFromWorker(data.publicNews);
+  updatePublicAIReport(data);
 }
 function renderForecast() {
   const container = document.getElementById("forecastCards");
