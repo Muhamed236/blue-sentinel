@@ -280,48 +280,35 @@ function renderPublic() {
 
 async function loadWeeklyForecast() {
   const forecastContainer =
-    document.getElementById("forecastCards");
+    document.getElementById("forecastGrid");
 
   try {
-    if (forecastContainer) {
-      forecastContainer.innerHTML = `
-        <div class="forecast-loading">
-          جاري تحميل توقعات البحر...
-        </div>
-      `;
-    }
-
     const response = await fetch(
-      `${FORECAST_API}?t=${Date.now()}`,
+      "https://blue-sentinel-ai.moozasalah138.workers.dev/report",
       {
+        method: "GET",
         cache: "no-store"
       }
     );
 
     if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (
+      data.status === "error" ||
+      !Array.isArray(data.forecast)
+    ) {
       throw new Error(
-        `Forecast request failed: ${response.status}`
+        data.message || "Forecast data unavailable"
       );
     }
 
-   const data = await response.json();
+    WEEK_FORECAST = data.forecast;
 
-WEEK_FORECAST = Array.isArray(data.forecast)
-  ? data.forecast
-  : [];
-
-updatePublicDailyForecast(data);
-renderForecast();
-
-    const updatedElement =
-      document.getElementById("forecastUpdated");
-
-    if (updatedElement) {
-      updatedElement.textContent =
-        data.updated
-          ? `آخر تحديث: ${data.updated}`
-          : "";
-    }
+    renderForecast();
 
   } catch (error) {
     console.error(
@@ -332,7 +319,7 @@ renderForecast();
     if (forecastContainer) {
       forecastContainer.innerHTML = `
         <div class="forecast-error">
-          تعذر تحميل توقعات البحر حاليًا.
+          تعذر تحميل توقعات الأيام حاليًا
         </div>
       `;
     }
